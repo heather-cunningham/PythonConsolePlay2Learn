@@ -1,47 +1,61 @@
+from anagram_gameboard import AnagramGameboard
+
+## BEGIN
 class AnagramHunt:
-    def __init__(self, word_length=0):
-        self.word_length = word_length
+    """ The Anagram Hunt game """
+    ## What does Anagram Hunt start page have?
+    ## * itself
+    margin_str = "-" * 65  
+
+    
+    def __init__(self):
+        """ Creates the Anagram Hunt game's start page """
+        super().__init__()
 
 
-    @property
-    def word_length(self):
-        return self._word_length
-
-
-    @word_length.setter
-    def word_length(self, word_length):
-        self._word_length = word_length
+    ## What can Anagram Hunt start page do?
+    # * Welcome the user
+    # * Ask user to choose a word length
+    # * Create the gameboard -- How does it do this?
+    #### ** Instantiate the gameboard
 
 
     def welcome_user(self):
-        print("-" * 65)
+        print(self.margin_str)
         print("Welcome to Anagram Hunt!")
-        print("-" * 65)
+        print(self.margin_str)
         print("How many anagrams can you find in 60 seconds?")
-        print("-" * 65)
+        print(self.margin_str)
 
 
     def select_word_length(self):
-        while(self.word_length < 5 or self.word_length > 8):
+        word_length = 0
+        error_msg = "is not a number from 5 through 8."
+        while(word_length < 5 or word_length > 8):
             try:
-                self.word_length = int(
-                    input("To start, please, select a word length, [5, 6, 7, or 8 characters]: ")
+                word_length = int(
+                    input("To start, please select a word length, [5, 6, 7, or 8 characters]: ")
                 )
             except ValueError:
-                print("Please, press 5 - 8 to select a word length.")
+                print(f"{self.margin_str}\n{word_length} {error_msg}\n{self.margin_str}")
             else:
-                if(self.word_length < 5 or self.word_length > 8):
-                    print("Please, press 5 - 8 to select a word length.")
-                else:
-                    print("-" * 65)
-                    print("You selected a word length of:", self.word_length, "characters.")
+                if(word_length < 5 or word_length > 8):
+                    print(f"{self.margin_str}\n{word_length} {error_msg}\n{self.margin_str}")
+        return word_length
+
+
+    def create_gameboard(self, word_length):
+        gameboard = AnagramGameboard(word_length)
+        return gameboard
 ## END class
 
 
 def main():
     game = AnagramHunt()
     game.welcome_user()
-    game.select_word_length()
+    word_length = game.select_word_length()
+    gameboard = game.create_gameboard(word_length)
+    gameboard.introduce_game()
 
 
 if(__name__ == "__main__"):
