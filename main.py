@@ -1,6 +1,7 @@
 ## Play2Learn3
 ## Main module to serve as the entry point for Python Terminal version Play2Learn3 project
 
+
 ## Text-based UI "homepage"
 def main():
     """ A friendly, text-based 'homepage'. """
