@@ -22,8 +22,8 @@ def greet_user():
 
 
 
-""" Allows the user to select a game to play.
-    returns: `game_to_play` (int) -- 1 for Anagram Hunt or 2 for Math Facts"""
+## Allows the user to select a game to play.
+## returns: `game_to_play` (int) -- 1 for Anagram Hunt or 2 for Math Facts
 def select_game():
     game_to_play = 0
     err_msg = f"{margin_str}\nPlease, press 1 or 2 to select a game.\n{margin_str}"
@@ -59,9 +59,7 @@ def main():
     """ A friendly, text-based 'homepage'. """
     greet_user()
     game_to_play = select_game()
-    launch_game(game_to_play)
-    
-    
+    launch_game(game_to_play)    
 ## END module
 
 if(__name__ == "__main__"):

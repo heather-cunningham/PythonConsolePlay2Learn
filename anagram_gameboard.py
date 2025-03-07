@@ -29,13 +29,13 @@ class AnagramGameboard():
 
     def introduce_game(self):
         print(self.margin_str)
-        print("* You selected a word length of:", self.word_length, "characters.")
+        print("\n* You selected a word length of:", self.word_length, "characters.")
         print("* You have 60 SECONDS on the clock to enter as many anagrams as you can from a list of",
               self.word_length, "letter words, displayed one at a time.")
         print("* Answers MUST include all of the letters in the original word", 
               "to be considered a correct anagram.")
         print("* You MUST guess all of the correct anagrams for a displayed word", 
-              "before progressing to the next in the list.")
+              "before progressing to the next in the list.\n")
 
 
     
