@@ -1,3 +1,4 @@
+from margin_separator_module import get_margin_separator
 from anagram_gameboard import AnagramGameboard
 
 ## BEGIN
@@ -5,7 +6,7 @@ class AnagramHunt:
     """ The Anagram Hunt game """
     ## What does Anagram Hunt start page have?
     ## * itself
-    margin_str = "-" * 65  
+    margin_str = get_margin_separator()  
 
     
     def __init__(self):
@@ -20,7 +21,7 @@ class AnagramHunt:
     #### ** Instantiate the gameboard
 
 
-    def welcome_user(self):
+    def welcome_player(self):
         print(self.margin_str)
         print("Welcome to Anagram Hunt!")
         print(self.margin_str)
@@ -49,10 +50,10 @@ class AnagramHunt:
         return gameboard
 ## END class
 
-
+""" To run `anagram_hunt.py` stand-alone/individually """
 def main():
     game = AnagramHunt()
-    game.welcome_user()
+    game.welcome_player()
     word_length = game.select_word_length()
     gameboard = game.create_gameboard(word_length)
     gameboard.introduce_game()
