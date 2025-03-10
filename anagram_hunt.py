@@ -1,24 +1,17 @@
 from margin_separator_module import get_margin_separator
 from anagram_gameboard import AnagramGameboard
+from pprint import pprint
 
 ## BEGIN
-class AnagramHunt:
+class AnagramHunt():
     """ The Anagram Hunt game """
-    ## What does Anagram Hunt start page have?
-    ## * itself
-    margin_str = get_margin_separator()  
+    
+    margin_str = get_margin_separator()
 
     
     def __init__(self):
         """ Creates the Anagram Hunt game's start page """
         super().__init__()
-
-
-    ## What can Anagram Hunt start page do?
-    # * Welcome the user
-    # * Ask user to choose a word length
-    # * Create the gameboard -- How does it do this?
-    #### ** Instantiate the gameboard
 
 
     def welcome_player(self):
@@ -44,7 +37,7 @@ class AnagramHunt:
                     print(f"{self.margin_str}\n{word_length} {error_msg}\n{self.margin_str}")
         return word_length
 
-
+    
     def create_gameboard(self, word_length):
         gameboard = AnagramGameboard(word_length)
         return gameboard
@@ -57,6 +50,13 @@ def main():
     word_length = game.select_word_length()
     gameboard = game.create_gameboard(word_length)
     gameboard.introduce_game()
+    # print("List of lists:\n", "-" * 25)
+    # pprint(gameboard.set_word_lists())
+    # print("Word List:\n", "-" * 25)
+    # pprint(gameboard.set_word_list())
+    # print(gameboard.set_anagram_word())
+    # gameboard.ask_question()
+    gameboard.start_game()
 
 
 if(__name__ == "__main__"):
