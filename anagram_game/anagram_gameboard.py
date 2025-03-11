@@ -119,28 +119,34 @@ class AnagramGameboard():
         else:
             print("!!!! Word list is empty or not found.")
         return self.anagram_word
-    
+
+
+    def increment_score(self):
+        self.user_score += 1
+        return self.user_score
+        
 
     def check_for_correct_answer(self, guess):
         guess = guess.lower()
-        if(guess == self.anagram_word):
+        if(guess == self.anagram_word): ## Guessed same word as in the question
             print("\n* You can't guess: " + self.anagram_word 
                   + ".  It's the same word as the question.  Please, try again.\n")
             self.is_correct_answer = False
             return self.is_correct_answer
-        elif(guess in self.correct_guesses_list):
+        elif(guess in self.correct_guesses_list): ## Guessed same answer as guessed already 
             print("\n* You've guessed: " + guess + " already.\n")
             self.display_correct_guesses()
             self.is_correct_answer = False
             return self.is_correct_answer
-        elif(guess in self.word_list):
+        elif(guess in self.word_list): ## Guessed correctly
             print("\n*", guess.title(), "is correct!\n")
             print("There are", len(self.word_list), "anagrams left to guess.")
+            print("Your score:", ("-" * 12), self.increment_score(), sep="\n")
             self.is_correct_answer = True
             self.remove_word(guess)
             self.correct_guesses_list.append(guess)
             return self.is_correct_answer    
-        else:
+        else: ## Guessed wrong
             print("\n* " + guess.title() + " is not a valid anagram of: " + self.anagram_word.upper() 
                   + ".  Please, try again.\n")
             self.is_correct_answer = False
@@ -170,7 +176,9 @@ class AnagramGameboard():
         self.set_list_of_word_lists()
         self.set_word_list()
         self.set_anagram_word()
+        ## While there're list of words of this character length left to anagram: 
         while(len(self.list_of_word_lists) > 0 ):
+            ## While the current word_list still has anagrams left to guess:
             while(len(self.word_list) > 0):
                 user_answer = self.ask_question(self.anagram_word)
                 is_correct = self.check_for_correct_answer(user_answer)
@@ -184,6 +192,11 @@ class AnagramGameboard():
                 self.correct_guesses_list = []
         else:
             print("Game Over")
+            self.user_score = ""
+            self.user_score = 0
+            self.correct_guesses_list = []
+            self.word_list = []
+            self.list_of_word_lists = []
             return
         # else:
         #     return    
