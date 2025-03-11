@@ -2,7 +2,7 @@ import sys
 import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
-from helpers import margin_separator_module as margin
+from helpers.margin_separator_module import get_margin_separator
 from anagram_gameboard import AnagramGameboard
 # from pprint import pprint
 
@@ -11,7 +11,7 @@ from anagram_gameboard import AnagramGameboard
 class AnagramHunt():
     """ The Anagram Hunt game """
     
-    margin_str = margin.get_margin_separator()
+    margin_str = get_margin_separator()
 
     
     def __init__(self):
