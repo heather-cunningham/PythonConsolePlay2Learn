@@ -1,5 +1,6 @@
 import json
 import random
+import time
 from pprint import pprint
 from helpers.margin_separator_module import get_margin_separator
 
@@ -57,13 +58,18 @@ class AnagramGameboard():
               "before progressing to the next in the list.")
         print("* Type a guess and press ENTER to submit an answer.\n")
         # self.ask_if_ready()
-    
+
+
+    def get_json_data(self):
+        with open("./data/anagrams.json") as file:
+            self.data = json.load(file)
+        return self.data
+
 
     ## Set/get the list of multiple word lists of this character length 
     def set_list_of_word_lists(self):
         word_len_str = str(self.word_length) 
-        with open("./data/anagrams.json") as file:
-            self.data = json.load(file)
+        self.data = self.get_json_data()
         if(self.data):
             if(word_len_str in self.data):
                 self.list_of_word_lists = self.data[word_len_str]
@@ -74,28 +80,8 @@ class AnagramGameboard():
         else:
             print("!!!! Data is empty or NOT FOUND")
         return self.list_of_word_lists
+
     
-
-    ## Remove this word list form the List of word lists of this character length
-    def remove_word_list(self):
-        if(self.word_list in self.list_of_word_lists):
-            self.list_of_word_lists.remove(self.word_list)
-        else:
-            print("Word List NOT FOUND in List of Lists:")
-            print("Word List:\n", "-" * 25)
-            pprint(self.word_list)
-            print("List of Lists:\n", "-" * 25)
-            pprint(self.list_of_word_lists)
-
-
-    ## Remove this word from the current word list
-    def remove_word(self, word_to_remove):
-        if(word_to_remove in self.word_list):
-            self.word_list.remove(word_to_remove)
-        else:
-            print(word_to_remove, "NOT FOUND in Word List:", self.word_list)
-
-
     ## Set/get 1 random list out of the list of multiple word lists of this character length
     def set_word_list(self):
         if(self.list_of_word_lists):
@@ -121,10 +107,25 @@ class AnagramGameboard():
         return self.anagram_word
 
 
-    def increment_score(self):
-        self.user_score += 1
-        return self.user_score
-        
+    ## Remove this word list form the List of word lists of this character length
+    def remove_word_list(self):
+        if(self.word_list in self.list_of_word_lists):
+            self.list_of_word_lists.remove(self.word_list)
+        else:
+            print("Word List NOT FOUND in List of Lists:")
+            print("Word List:\n", "-" * 25)
+            pprint(self.word_list)
+            print("List of Lists:\n", "-" * 25)
+            pprint(self.list_of_word_lists)
+
+
+    ## Remove this word from the current word list
+    def remove_word(self, word_to_remove):
+        if(word_to_remove in self.word_list):
+            self.word_list.remove(word_to_remove)
+        else:
+            print(word_to_remove, "NOT FOUND in Word List:", self.word_list)
+    
 
     def check_for_correct_answer(self, guess):
         guess = guess.lower()
@@ -151,6 +152,11 @@ class AnagramGameboard():
                   + ".  Please, try again.\n")
             self.is_correct_answer = False
         return self.is_correct_answer
+    
+
+    def increment_score(self):
+        self.user_score += 1
+        return self.user_score
 
 
     def display_correct_guesses(self):
@@ -190,7 +196,7 @@ class AnagramGameboard():
                 self.set_word_list()
                 self.set_anagram_word()
                 self.correct_guesses_list = []
-        else:
+        else: ## There're no word lists left of this character length.
             print("Game Over")
             self.user_score = ""
             self.user_score = 0
