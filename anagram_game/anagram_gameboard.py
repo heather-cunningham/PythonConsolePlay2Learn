@@ -1,12 +1,14 @@
 import json
 import random
 from pprint import pprint
-from margin_separator_module import get_margin_separator
+from helpers.margin_separator_module import get_margin_separator
 
 
 ## BEGIN
 class AnagramGameboard():
     """ The gameboard for Anagram Hunt. """
+
+    
     margin_str = get_margin_separator()
     player_ready = "n"
     data = None
@@ -14,6 +16,7 @@ class AnagramGameboard():
     word_list = []
     anagram_word = ""
     user_answer = ""
+    user_score = 0
     is_correct_answer = False
     correct_guesses_list = []
 
@@ -28,14 +31,14 @@ class AnagramGameboard():
         self.word_length = word_length
 
 
-    @property
-    def word_length(self):
-        return self._word_length
+    # @property
+    # def word_length(self):
+    #     return self._word_length
 
 
-    @word_length.setter
-    def word_length(self, word_length):
-        self._word_length = word_length
+    # @word_length.setter
+    # def word_length(self, word_length):
+    #     self._word_length = word_length
 
 
     # def ask_if_ready(self):

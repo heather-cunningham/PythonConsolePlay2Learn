@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "PythonConsolePlay2Learn3",
+        "./anagram-hunt"
+    ]
+}
