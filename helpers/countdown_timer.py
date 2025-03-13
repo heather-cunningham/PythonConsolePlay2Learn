@@ -5,9 +5,6 @@ import time
 ## BEGIN
 class CountdownTimer():
     """ A countdown clock or timer """
-
-
-    _thread = None
     
 
     def __init__(self, seconds=60, running=False):
@@ -19,6 +16,8 @@ class CountdownTimer():
         """
         self.seconds = seconds
         self.running = running
+        self._thread = None
+        return
 
 
     @property
@@ -29,6 +28,7 @@ class CountdownTimer():
     @seconds.setter
     def seconds(self, seconds):
         self._seconds = seconds
+        return
 
 
     @property
@@ -39,12 +39,15 @@ class CountdownTimer():
     @running.setter
     def running(self, running):
         self._running = running
+        return
 
 
     def _run_timer(self):
-        while (self.seconds >= 0):
+        while (self.seconds >= 0 and self.running):
             time.sleep(1)
             self.seconds -= 1
+        # print("#### Timer Thread should exit automatically when seconds reach 0 or running is False.")    
+        return
 
 
     def start_timer(self):
@@ -52,17 +55,23 @@ class CountdownTimer():
             self.running = True
             self._thread = threading.Thread(target=self._run_timer)
             self._thread.start()
+            # print("#### Timer started.")
+        return
 
 
     def stop_timer(self):
         if(self.running and self._thread is not None):
             self.running = False
+            # print("#### Stopping timer...")
             self._thread.join()
+            # print("#### Supposedly: Timer Thread stopped.") 
+        return
 
 
     def reset_timer(self, seconds=60):
         self.stop_timer()
         self.seconds = seconds
+        return
 ## END Class
 
 
