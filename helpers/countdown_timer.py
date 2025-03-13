@@ -45,8 +45,7 @@ class CountdownTimer():
     def _run_timer(self):
         while (self.seconds >= 0 and self.running):
             time.sleep(1)
-            self.seconds -= 1
-        # print("#### Timer Thread should exit automatically when seconds reach 0 or running is False.")    
+            self.seconds -= 1   
         return
 
 
@@ -55,16 +54,13 @@ class CountdownTimer():
             self.running = True
             self._thread = threading.Thread(target=self._run_timer)
             self._thread.start()
-            # print("#### Timer started.")
         return
 
 
     def stop_timer(self):
         if(self.running and self._thread is not None):
             self.running = False
-            # print("#### Stopping timer...")
             self._thread.join()
-            # print("#### Supposedly: Timer Thread stopped.") 
         return
 
 
@@ -80,7 +76,7 @@ def main():
     timer.start_timer()
     while(timer.running and timer.seconds >= 0):
         print("Time left:", timer.seconds)
-    else: ## if(timer.running and timer.seconds == 0):
+    else:
         timer.stop_timer()
         print("Time's up!!!")
 

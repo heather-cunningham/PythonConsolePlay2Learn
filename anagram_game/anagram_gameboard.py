@@ -28,8 +28,8 @@ class AnagramGameboard():
         self._user_score = 0
         self._is_correct_answer = False
         self._correct_guesses_list = []
-        self._timer = CountdownTimer(seconds=10)
-        self._sorry_msg = "* Sorry, you didn't get that last one in on time.\n"
+        self._timer = CountdownTimer(seconds=60)
+        self._sorry_msg = "Sorry, you didn't get that last one in on time.\n"
         ## Python convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
@@ -125,15 +125,18 @@ class AnagramGameboard():
             print("\n* You can't guess: " + self._anagram_word.title() 
                   + ".  It's the same word as the question.  Please, try again.\n")
             self._is_correct_answer = False
+            return self._is_correct_answer
         elif(guess in self._correct_guesses_list): ## Guessed same answer as guessed already 
             print("\n* You've guessed: " + guess.title() + " already.\n")
             self._is_correct_answer = False
+            return self._is_correct_answer
         elif(guess in self._word_list): ## Guessed correctly
             print("\n*", guess.title(), "is correct!\n")
             self.remove_word(guess)
             self.increment_score()
             self._is_correct_answer = True
-            self._correct_guesses_list.append(guess)    
+            self._correct_guesses_list.append(guess)
+            return self._is_correct_answer    
         else: ## Guessed wrong
             print("\n* " + guess.title() + " is not a valid anagram of: " + self._anagram_word.upper() 
                   + ".  Please, try again.\n")
@@ -149,12 +152,11 @@ class AnagramGameboard():
     def show_user_display(self):
         if(self._timer.seconds > 0):
             print("Your score:", self._user_score)
-            if(len(self._correct_guesses_list) > 0):
-                print("You've guessed correctly:", self._correct_guesses_list, "\n")
+            print("* You've guessed correctly:", self._correct_guesses_list)
             if(len(self._word_list) > 0):
                 print("* There are", len(self._word_list), "anagrams left to guess.")
             else:
-                print("* You got all the anagrams for " + self._anagram_word.upper() + ".")
+                print(f"* YOU GUESSED ALL THE ANAGRAMS FOR {self._anagram_word.title()}. YAY!!! :)")
             print("* You have", self._timer.seconds, "seconds left.\n")
         else:
             print(self._sorry_msg)
@@ -192,13 +194,16 @@ class AnagramGameboard():
                     return
                 is_correct = self.check_for_correct_answer(self._user_answer)
                 self.show_user_display()
-                while (not is_correct):
+                while (not is_correct and self._timer.seconds > 0):
                     self._user_answer = self.ask_question(self._anagram_word)
                     if (self._user_answer.lower() in ["q", "quit"]):
                         self.quit_game()
                         return
                     is_correct = self.check_for_correct_answer(self._user_answer)
                     self.show_user_display()
+                else:
+                    if(self._timer.seconds < 0):
+                        break
             else: ## Get the next word_list form the lists of lists of this char length:
                 if(self._timer.seconds > 0):
                     self.set_word_list()
@@ -213,7 +218,7 @@ class AnagramGameboard():
         self.set_list_of_word_lists()
         self.set_word_list()
         self.set_anagram_word()
-        print("* You have 60 seconds.\n")
+        print(f"* You have {self._timer.seconds} seconds.\n")
         self._timer.start_timer()
         self.play_game()
         return
