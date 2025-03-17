@@ -55,12 +55,6 @@ def main():
     word_length = game.select_word_length()
     gameboard = game.create_gameboard(word_length)
     gameboard.introduce_game()
-    # print("List of lists:\n", "-" * 25)
-    # pprint(gameboard.set_word_lists())
-    # print("Word List:\n", "-" * 25)
-    # pprint(gameboard.set_word_list())
-    # print(gameboard.set_anagram_word())
-    # gameboard.ask_question()
     gameboard.start_game()
 
 
