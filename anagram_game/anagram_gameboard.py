@@ -163,7 +163,9 @@ class AnagramGameboard():
             print("Your score:", self._user_score)
             print("* You've guessed correctly:", self._correct_guesses_list)
             if(len(self._word_list) > 0):
-                print("* There are", len(self._word_list), "anagrams left to guess.")
+                print(f"* There {'is' if len(self._word_list) == 1 else 'are'} "
+                      f"{len(self._word_list)} anagram{'s' if len(self._word_list) != 1 else ''} "
+                      f"left to guess.")
             else:
                 print(f"* YOU GUESSED ALL THE ANAGRAMS FOR {self._anagram_word.title()}. YAY!!! :)")
             print("* You have", self._timer.seconds, "seconds left.\n")
@@ -175,7 +177,11 @@ class AnagramGameboard():
     def ask_question(self, word_to_anagram):
         word_to_anagram = word_to_anagram.upper()
         print("The word is:", word_to_anagram)
-        print("There are " + str(len(self._word_list)) + " anagrams remaining for: " + word_to_anagram + ".")
+        print(
+            f"There {'is' if len(self._word_list) == 1 else 'are'} "
+            f"{len(self._word_list)} anagram{'s' if len(self._word_list) != 1 else ''} "
+            f"remaining for: {word_to_anagram}."
+        )
         guess = input("Enter a guess: [q to quit] ")
         return guess
     
@@ -195,7 +201,9 @@ class AnagramGameboard():
     
 
     def play_game(self):
+        ## While there is a list of word_lists of this char length, and still time:
         while (len(self._list_of_word_lists) > 0 and self._timer.seconds > 0):
+            ## While there are words still in this word_list of this char length, and still time:
             while (len(self._word_list) > 0 and self._timer.seconds > 0):
                 self._user_answer = self.ask_question(self._anagram_word)
                 if (self._user_answer.lower() in ["q", "quit"]):
@@ -218,7 +226,7 @@ class AnagramGameboard():
                     self.set_word_list()
                     self.set_anagram_word()
                     self._correct_guesses_list = []
-        else: ## There're no word lists left of this character length.
+        else: ## There're no word lists left of this char length, or no more time:
             self.quit_game()
         return
     
