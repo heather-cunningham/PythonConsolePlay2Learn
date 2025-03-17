@@ -18,9 +18,8 @@ class AnagramGameboard():
                                                   to make anagrams.  Defaults to 5. 
         """
         super().__init__()
-        self.word_length = word_length
         self._margin_str = get_margin_separator()
-        # self.player_ready = "n"
+        self.word_length = word_length
         self._data = None
         self._list_of_word_lists = []
         self._word_list = []
@@ -177,12 +176,10 @@ class AnagramGameboard():
     def ask_question(self, word_to_anagram):
         word_to_anagram = word_to_anagram.upper()
         print("The word is:", word_to_anagram)
-        print(
-            f"There {'is' if len(self._word_list) == 1 else 'are'} "
-            f"{len(self._word_list)} anagram{'s' if len(self._word_list) != 1 else ''} "
-            f"remaining for: {word_to_anagram}."
-        )
-        guess = input("Enter a guess: [q to quit] ")
+        print(f"There {'is' if len(self._word_list) == 1 else 'are'} "
+              f"{len(self._word_list)} anagram{'s' if len(self._word_list) != 1 else ''} "
+              f"remaining for: {word_to_anagram}.")
+        guess = input("Enter a guess: [type 'zzz' to quit] ")
         return guess
     
     
@@ -206,14 +203,14 @@ class AnagramGameboard():
             ## While there are words still in this word_list of this char length, and still time:
             while (len(self._word_list) > 0 and self._timer.seconds > 0):
                 self._user_answer = self.ask_question(self._anagram_word)
-                if (self._user_answer.lower() in ["q", "quit"]):
+                if (self._user_answer.lower() == "zzz"):
                     self.quit_game()
                     return
                 is_correct = self.check_for_correct_answer(self._user_answer)
                 self.show_user_display()
                 while (not is_correct and self._timer.seconds > 0):
                     self._user_answer = self.ask_question(self._anagram_word)
-                    if (self._user_answer.lower() in ["q", "quit"]):
+                    if (self._user_answer.lower() == "zzz"):
                         self.quit_game()
                         return
                     is_correct = self.check_for_correct_answer(self._user_answer)
