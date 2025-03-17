@@ -37,7 +37,8 @@ class AnagramGameboard():
     def introduce_game(self):
         print(self._margin_str)
         print("\n* You selected a word length of:", self.word_length, "characters.")
-        print("* You have 60 SECONDS on the clock to enter as many anagrams as you can from a list of",
+        print("* You have", self._timer.seconds, 
+              "SECONDS on the clock to enter as many anagrams as you can from a list of",
               self.word_length, "letter words, displayed one at a time.")
         print("* Answers MUST include all of the letters in the original word", 
               "to be considered a correct anagram.")
@@ -232,7 +233,7 @@ class AnagramGameboard():
         self.set_list_of_word_lists()
         self.set_word_list()
         self.set_anagram_word()
-        print(f"* You have {self._timer.seconds} seconds.\n")
+        # print(f"* You have {self._timer.seconds} seconds.\n")
         self._timer.start_timer()
         self.play_game()
         return
