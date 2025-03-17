@@ -1,5 +1,4 @@
 from anagram_game.anagram_hunt import AnagramHunt
-from anagram_game.anagram_gameboard import AnagramGameboard
 from helpers.margin_separator_module import get_margin_separator
 
 
@@ -7,17 +6,17 @@ from helpers.margin_separator_module import get_margin_separator
 ## Main module to serve as the entry point for Python Terminal version Play2Learn3 project
 
 ## BEGIN module
-_margin_str = get_margin_separator()
+_MARGIN_STR = get_margin_separator()
 
 
 def greet_user():     
-    print(_margin_str)
+    print(_MARGIN_STR)
     print("Welcome to Play2Learn3!")
-    print(_margin_str)
+    print(_MARGIN_STR)
     print("A Python text-based console/terminal game program.")
-    print(_margin_str)
+    print(_MARGIN_STR)
     print("Play2Learn3 contains 2 games:")
-    print(_margin_str)
+    print(_MARGIN_STR)
     print("1.)  Anagram Hunt -- How many anagrams can you find in 60 seconds?")
     print("2.)  Math Facts -- How many arithmetic problems can you solve in 30 seconds?\n")
     ## Python convention of explicitly returning, even if empty, to mark the end of a method.
@@ -29,7 +28,7 @@ def greet_user():
 ## returns: `game_to_play` (int) -- 1 for Anagram Hunt or 2 for Math Facts
 def select_game():
     game_to_play = 0
-    err_msg = f"{_margin_str}\nPlease, press 1 or 2 to select a game.\n{_margin_str}"
+    err_msg = f"{_MARGIN_STR}\nPlease, press 1 or 2 to select a game.\n{_MARGIN_STR}"
     while(game_to_play != 1 and game_to_play != 2):
         try:
             game_to_play = int(input("Which game would you like to play? (1-Anagram Hunt / 2-Math Facts) "))

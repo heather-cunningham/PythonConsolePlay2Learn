@@ -14,33 +14,33 @@ class AnagramHunt():
     def __init__(self):
         """ Creates the Anagram Hunt game's start page """
         super().__init__()
-        self._margin_str = get_margin_separator()
+        self._MARGIN_STR = get_margin_separator()
         ## Python convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
 
     def welcome_player(self):
-        print(self._margin_str)
+        print(self._MARGIN_STR)
         print("Welcome to Anagram Hunt!")
-        print(self._margin_str)
+        print(self._MARGIN_STR)
         print("How many anagrams can you find in 60 seconds?")
-        print(self._margin_str)
+        print(self._MARGIN_STR)
         return
 
 
     def select_word_length(self):
         word_length = 0
-        error_msg = "is not a number from 5 through 8."
+        ERROR_MSG = "is not a number from 5 through 8."
         while(word_length < 5 or word_length > 8):
             try:
                 word_length = int(
                     input("To start, please select a word length, [5, 6, 7, or 8 characters]: ")
                 )
             except ValueError:
-                print(f"{self._margin_str}\n{word_length} {error_msg}\n{self._margin_str}")
+                print(f"{self._MARGIN_STR}\n{word_length} {ERROR_MSG}\n{self._MARGIN_STR}")
             else:
                 if(word_length < 5 or word_length > 8):
-                    print(f"{self._margin_str}\n{word_length} {error_msg}\n{self._margin_str}")
+                    print(f"{self._MARGIN_STR}\n{word_length} {ERROR_MSG}\n{self._MARGIN_STR}")
         return word_length
 
     
