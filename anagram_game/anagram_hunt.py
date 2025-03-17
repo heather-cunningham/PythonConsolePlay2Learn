@@ -3,7 +3,7 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 from helpers.margin_separator_module import get_margin_separator
-from anagram_gameboard import AnagramGameboard
+from anagram_game.anagram_gameboard import AnagramGameboard
 # from pprint import pprint
 
 
@@ -43,7 +43,7 @@ class AnagramHunt():
         return word_length
 
     
-    def create_gameboard(self, word_length):
+    def create_gameboard(self, word_length=5):
         gameboard = AnagramGameboard(word_length)
         return gameboard
 ## END class

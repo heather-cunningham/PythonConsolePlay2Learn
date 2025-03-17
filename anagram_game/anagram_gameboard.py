@@ -1,3 +1,4 @@
+import os
 import json
 import random
 from pprint import pprint
@@ -47,8 +48,16 @@ class AnagramGameboard():
         return
 
 
+    def get_abs_filepath(self, rel_filepath_str):
+        folder_name = os.path.dirname(os.path.abspath(__file__))
+        path_parts_list = rel_filepath_str.split("/") 
+        return os.path.join(folder_name, *path_parts_list) 
+
+
     def get_json_data(self):
-        with open("./data/anagrams.json") as file:
+        rel_filepath_str = "./data/anagrams.json"
+        data_abs_filepath = self.get_abs_filepath(rel_filepath_str)
+        with open(data_abs_filepath) as file:
             self._data = json.load(file)
         return self._data
 

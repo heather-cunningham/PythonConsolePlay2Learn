@@ -1,4 +1,5 @@
 from anagram_game.anagram_hunt import AnagramHunt
+from anagram_game.anagram_gameboard import AnagramGameboard
 from helpers.margin_separator_module import get_margin_separator
 
 
@@ -48,9 +49,10 @@ def launch_game(game_to_play):
     if(game_to_play == 1): ## Anagram Hunt
         game = AnagramHunt()
         game.welcome_player()
-        word_length = game.select_word_length()
-        gameboard = game.create_gameboard(word_length)
+        word_len_selected = game.select_word_length()
+        gameboard = game.create_gameboard(word_len_selected)
         gameboard.introduce_game()
+        gameboard.start_game()
     else:
         print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")
 
