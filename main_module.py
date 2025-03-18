@@ -1,4 +1,5 @@
 from anagram_game.anagram_hunt import AnagramHunt
+from helpers.player import Player
 from helpers.margin_separator_module import get_margin_separator
 
 
@@ -49,13 +50,41 @@ def select_game():
 def launch_game(game_to_play):
     if(game_to_play == 1): ## Anagram Hunt
         game = AnagramHunt()
-        game.welcome_player()
-        word_len_selected = game.select_word_length()
-        gameboard = game.create_gameboard(word_len_selected)
-        gameboard.introduce_game()
-        gameboard.start_game()
-    else:
+        ## While the game is not over:
+        while(not game.is_game_over):
+            player = Player()
+            game.welcome_player()
+            word_length = game.select_word_length()
+            game.introduce_game(word_length)
+            gameboard = game.create_gameboard(word_length)
+            player_answer = game.check_player_ready()
+            if(player_answer == "y" or player_answer == "yes"):
+                player.is_player_ready = True
+                gameboard.start_game()
+                ## If the game is over, but wasn't quit:
+                if(gameboard.is_game_ended and not gameboard.was_game_quit):
+                    user_answer = game.ask_play_again()
+                    if(user_answer == ""):
+                        continue
+                    else:
+                        gameboard.quit_game()
+                        gameboard.was_game_quit = True
+                        game.is_game_over = True
+                else:
+                    game.is_game_over = True
+                    player_answer == "n"
+                    break
+            else:
+                player.is_player_ready = False
+                gameboard.quit_game()
+                game.is_game_over = True
+        else:    
+            del gameboard
+            del game
+    elif(game_to_play == 2):
         print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")
+    else:
+        print("Invalid input!  Please, select: 1 for Anagram Hunt or 2 for Math Facts.")
     return
 
 
