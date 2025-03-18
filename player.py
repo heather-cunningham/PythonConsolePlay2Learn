@@ -7,6 +7,7 @@ class Player:
         """ Creates a player for a game """
         super().__init__()
         self.is_player_ready = is_player_ready
+        self.games_played_list = []
 
 
     @property

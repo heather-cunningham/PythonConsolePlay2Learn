@@ -2,9 +2,9 @@ import sys
 import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
+from player import Player
 from helpers.margin_separator_module import get_margin_separator
 from anagram_game.anagram_gameboard import AnagramGameboard
-from helpers.player import Player
 
 
 ## BEGIN

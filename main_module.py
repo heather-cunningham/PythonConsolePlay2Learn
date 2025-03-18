@@ -1,5 +1,5 @@
+from player import Player
 from anagram_game.anagram_hunt import AnagramHunt
-from helpers.player import Player
 from helpers.margin_separator_module import get_margin_separator
 
 
