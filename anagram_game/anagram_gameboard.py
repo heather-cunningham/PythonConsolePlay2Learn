@@ -243,8 +243,12 @@ class AnagramGameboard():
         else:
             print("Time's up!!!")
             print("Sorry, you didn't get that last one in on time.")
+        if(self._user_score > 0):
             print(f"You guessed {self._user_score} anagrams for {self._word_length}-letter words!")
-        print("Good for you! :)  Hooray!!!")
+            print("Good for you! :)  Hooray!!!")
+        elif(self._user_score == 0):
+            print("Aww, you didn't guess any anagrams for " + str(self._word_length) + "-letter words." 
+                  + "  Better luck next time!")
         self._reset_game()
         return
 ## END class
