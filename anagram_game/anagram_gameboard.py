@@ -20,11 +20,14 @@ class AnagramGameboard(Gameboard):
         super().__init__()
         ## Constants
         self._MARGIN_STR = get_margin_separator()
-        self._GAME_TIME = 10
+        self.__GAME_NAME = "Anagram Hunt"
+        self._GAME_TIME = 60
         ## Public
+        self.game_id
+        self.game_date
         self.is_game_ended = False
         self.was_game_quit = False
-        ## Private
+        ## Protected
         self._word_length = word_length
         self._data = None
         self._list_of_word_lists = []
@@ -36,6 +39,29 @@ class AnagramGameboard(Gameboard):
         self._correct_guesses_list = []
         self._timer = CountdownTimer(seconds=self._GAME_TIME)
         ## Python convention of explicitly returning, even if empty, to mark the end of a method.
+        return
+
+
+    @property
+    def game_id(self):
+        return self._game_id
+    
+
+    @game_id.setter
+    def game_id(self, game_id):
+        self._game_id = game_id
+        return
+
+
+
+    @property
+    def game_date(self):
+        return self._game_date
+    
+
+    @game_date.setter
+    def game_date(self, game_date):
+        self._game_date = game_date        
         return
 
 
@@ -120,6 +146,9 @@ class AnagramGameboard(Gameboard):
 
 
     def start_game(self):
+        Gameboard.game_name = self.__GAME_NAME
+        self.game_id = Gameboard.generate_game_id(Gameboard.game_name)
+        self.game_date = Gameboard.set_game_date()
         self._set_list_of_word_lists()
         self._set_word_list()
         self._set_anagram_word()
@@ -253,6 +282,7 @@ class AnagramGameboard(Gameboard):
         elif(self._user_score == 0):
             print("Aww, you didn't guess any anagrams for " + str(self._word_length) + "-letter words." 
                   + "  Better luck next time!")
+        Gameboard.final_score = self._user_score
         self._reset_game()
         return
 ## END class

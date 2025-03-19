@@ -19,13 +19,13 @@ class Gameboard(metaclass=ABCMeta):
     
 
     @property
-    def final_score(self):
-        return self._final_score
+    def game_name(self):
+        return self._game_name
     
 
-    @final_score.setter
-    def final_score(self, final_score=0):
-        self._final_score = final_score
+    @game_name.setter
+    def game_name(self, game_name=""):
+        self._game_name = game_name
         return
     
     
@@ -52,7 +52,7 @@ class Gameboard(metaclass=ABCMeta):
     def set_game_date(cls):
         """ Sets the UTC date of the day the game was played. """
         now = datetime.now(timezone.utc)
-        return now.date()
+        return datetime.combine(now.date(), now.time())
 
 
     @abstractmethod
@@ -113,4 +113,15 @@ class Gameboard(metaclass=ABCMeta):
     def _end_game(self):
         """ Ends the game. """
         pass
+
+
+    @property
+    def final_score(self):
+        return self._final_score
+    
+
+    @final_score.setter
+    def final_score(self, final_score=0):
+        self._final_score = final_score
+        return
 ## END class
