@@ -51,7 +51,7 @@ def launch_game(game_to_play):
     if(game_to_play == 1): ## Anagram Hunt
         game = AnagramHunt()
         ## While the game is not over:
-        while(not game.is_game_over):
+        while(not game._is_game_over):
             player = Player()
             game.welcome_player()
             word_length = game.select_word_length()
@@ -59,25 +59,25 @@ def launch_game(game_to_play):
             gameboard = game.create_gameboard(word_length)
             player_answer = game.check_player_ready()
             if(player_answer == "y" or player_answer == "yes"):
-                player.is_player_ready = True
+                player._is_player_ready = True
                 gameboard.start_game()
                 ## If the game is over, but wasn't quit:
-                if(gameboard.is_game_ended and not gameboard.was_game_quit):
+                if(gameboard._is_game_ended and not gameboard._was_game_quit):
                     user_answer = game.ask_play_again()
                     if(user_answer == ""):
                         continue
                     else:
                         gameboard.quit_game()
-                        gameboard.was_game_quit = True
-                        game.is_game_over = True
+                        gameboard._was_game_quit = True
+                        game._is_game_over = True
                 else:
-                    game.is_game_over = True
+                    game._is_game_over = True
                     player_answer == "n"
                     break
             else:
-                player.is_player_ready = False
+                player._is_player_ready = False
                 gameboard.quit_game()
-                game.is_game_over = True
+                game._is_game_over = True
         else:    
             del gameboard
             del game

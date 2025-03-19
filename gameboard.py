@@ -10,10 +10,12 @@ class Gameboard(metaclass=ABCMeta):
     def __init__(self, game_name="", final_score=0):
         """ Creates an abstract parent Game """
         super().__init__()
+        ## Public
         self.game_name = game_name
-        self.final_score = final_score
-        self.game_id = Gameboard.generate_game_id(game_name)
-        self.game_date = Gameboard.set_game_date()
+        ## Protected
+        self._final_score = final_score
+        self._game_id = Gameboard.generate_game_id(game_name)
+        self._game_date = Gameboard.set_game_date()
         ## Python convention of explicitly returning, even if empty, to mark the end of a method.
         return
     
@@ -116,12 +118,12 @@ class Gameboard(metaclass=ABCMeta):
 
 
     @property
-    def final_score(self):
-        return self._final_score
+    def _final_score(self):
+        return self.__final_score
     
 
-    @final_score.setter
-    def final_score(self, final_score=0):
-        self._final_score = final_score
+    @_final_score.setter
+    def _final_score(self, final_score=0):
+        self.__final_score = final_score
         return
 ## END class

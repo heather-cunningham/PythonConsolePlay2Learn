@@ -18,19 +18,19 @@ class AnagramHunt():
         self._MARGIN_STR = get_margin_separator()
         self._GAME_TIME = 60
         self._word_length = 5
-        self.is_game_over = False
+        self._is_game_over = False
         ## Python convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
 
     @property
-    def is_game_over(self):
-        return self._is_game_over
+    def _is_game_over(self):
+        return self.__is_game_over
     
 
-    @is_game_over.setter
-    def is_game_over(self, is_game_over):
-        self._is_game_over = is_game_over
+    @_is_game_over.setter
+    def _is_game_over(self, is_game_over):
+        self.__is_game_over = is_game_over
         return
     
 
@@ -96,7 +96,7 @@ class AnagramHunt():
 def main():
     game = AnagramHunt()
     ## While the game is not over:
-    while(not game.is_game_over):
+    while(not game._is_game_over):
         player = Player()
         game.welcome_player()
         word_length = game.select_word_length()
@@ -104,25 +104,25 @@ def main():
         gameboard = game.create_gameboard(word_length)
         player_answer = game.check_player_ready()
         if(player_answer == "y" or player_answer == "yes"):
-            player.is_player_ready = True
+            player._is_player_ready = True
             gameboard.start_game()
             ## If the game is over, but wasn't quit:
-            if(gameboard.is_game_ended and not gameboard.was_game_quit):
+            if(gameboard._is_game_ended and not gameboard._was_game_quit):
                 user_answer = game.ask_play_again()
                 if(user_answer == ""):
                     continue
                 else:
                     gameboard.quit_game()
-                    gameboard.was_game_quit = True
-                    game.is_game_over = True
+                    gameboard._was_game_quit = True
+                    game._is_game_over = True
             else:
-                game.is_game_over = True
+                game._is_game_over = True
                 player_answer == "n"
                 break
         else:
-            player.is_player_ready = False
+            player._is_player_ready = False
             gameboard.quit_game()
-            game.is_game_over = True
+            game._is_game_over = True
     else:    
         del gameboard
         del game
