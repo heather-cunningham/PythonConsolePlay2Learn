@@ -1,13 +1,13 @@
 import os
 import json
 import random
-from pprint import pprint
+from gameboard import Gameboard
 from helpers.margin_separator_module import get_margin_separator
 from helpers.countdown_timer import CountdownTimer
 
 
 ## BEGIN
-class AnagramGameboard():
+class AnagramGameboard(Gameboard):
     """ The gameboard for Anagram Hunt. """
 
 
@@ -20,7 +20,7 @@ class AnagramGameboard():
         super().__init__()
         ## Constants
         self._MARGIN_STR = get_margin_separator()
-        self._GAME_TIME = 60
+        self._GAME_TIME = 10
         ## Public
         self.is_game_ended = False
         self.was_game_quit = False
@@ -102,11 +102,7 @@ class AnagramGameboard():
         if(self._word_list in self._list_of_word_lists):
             self._list_of_word_lists.remove(self._word_list)
         else:
-            print("Word List NOT FOUND in List of Lists:")
-            print("Word List:\n", "-" * 25)
-            pprint(self._word_list)
-            print("List of Lists:\n", "-" * 25)
-            pprint(self._list_of_word_lists)
+            print("Word List NOT FOUND in List of Word Lists.")
         return
 
 
@@ -117,6 +113,30 @@ class AnagramGameboard():
         else:
             print(word_to_remove, "NOT FOUND in Word List:", self._word_list)
         return
+    
+
+    def _start_game_timer(self):
+        return self._timer.start_timer() 
+
+
+    def start_game(self):
+        self._set_list_of_word_lists()
+        self._set_word_list()
+        self._set_anagram_word()
+        print(f"* You have {self._GAME_TIME} seconds.\n")
+        self._start_game_timer()
+        self._play_game()
+        return
+    
+
+    def _ask_question(self, word_to_anagram):
+        word_to_anagram = word_to_anagram.upper()
+        print("The word is:", word_to_anagram)
+        print(f"There {'is' if len(self._word_list) == 1 else 'are'} "
+              f"{len(self._word_list)} anagram{'s' if len(self._word_list) != 1 else ''} "
+              f"remaining for: {word_to_anagram}.")
+        guess = input("Enter a guess: [type 'zzz' to quit] ")
+        return guess
     
 
     def _check_for_correct_answer(self, guess):
@@ -161,16 +181,6 @@ class AnagramGameboard():
                 print(f"* YOU GUESSED ALL THE ANAGRAMS FOR {self._anagram_word.title()}. YAY!!! :)")
             print("* You have", self._timer.seconds, "seconds left.\n")
         return
-
-
-    def _ask_question(self, word_to_anagram):
-        word_to_anagram = word_to_anagram.upper()
-        print("The word is:", word_to_anagram)
-        print(f"There {'is' if len(self._word_list) == 1 else 'are'} "
-              f"{len(self._word_list)} anagram{'s' if len(self._word_list) != 1 else ''} "
-              f"remaining for: {word_to_anagram}.")
-        guess = input("Enter a guess: [type 'zzz' to quit] ")
-        return guess
     
 
     def _play_game(self):
@@ -204,16 +214,6 @@ class AnagramGameboard():
         return
     
 
-    def start_game(self):
-        self._set_list_of_word_lists()
-        self._set_word_list()
-        self._set_anagram_word()
-        print(f"* You have {self._GAME_TIME} seconds.\n")
-        self._timer.start_timer()
-        self._play_game()
-        return
-    
-
     def _reset_game(self):
         self.is_game_ended = True
         self._timer = None
@@ -226,10 +226,14 @@ class AnagramGameboard():
         return   
     
 
+    def _stop_game_timer(self):
+        return self._timer.stop_timer()
+
+
     def quit_game(self):
         print("Thanks for playing! TTFN (ta ta for now)!")
         if(self._timer is not None and self._timer.seconds > 0):
-            self._timer.stop_timer()
+            self._stop_game_timer()
         self._reset_game()
         self.was_game_quit = True
         return   
@@ -237,7 +241,7 @@ class AnagramGameboard():
     
     def _end_game(self):
         if(self._timer is not None and self._timer.seconds > 0):
-            self._timer.stop_timer()
+            self._stop_game_timer()
             print("You guessed all " + str(self._user_score) + " anagrams for " + str(self._word_length) 
                   + "-letter words before the " + str(self._GAME_TIME) + " seconds expired!!!")
         else:
