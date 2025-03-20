@@ -20,13 +20,14 @@ class AnagramGameboard(Gameboard):
         super().__init__()
         ## Constants
         self._MARGIN_STR = get_margin_separator()
-        self.__GAME_NAME = "Anagram Hunt"
+        self._GAME_NAME = "Anagram Hunt"
         self._GAME_TIME = 60
         ## Protected
-        self._game_id
-        self._game_date
+        self._game_id = 0
+        self._game_date = 0
         self._is_game_ended = False
         self._was_game_quit = False
+        self._final_score = 0
         ## Private
         self.__word_length = word_length
         self.__data = None
@@ -62,6 +63,18 @@ class AnagramGameboard(Gameboard):
     def _game_date(self, game_date):
         self.__game_date = game_date        
         return
+    
+
+    @property
+    def _final_score(self):
+        return self.__final_score
+    
+
+    @_final_score.setter
+    def _final_score(self, user_score):
+        self.__final_score = user_score        
+        return
+
 
     ## Private
     def __get_abs_filepath(self, rel_filepath_str):
@@ -154,7 +167,7 @@ class AnagramGameboard(Gameboard):
 
     ## @override
     def start_game(self):
-        Gameboard.game_name = self.__GAME_NAME
+        Gameboard.game_name = self._GAME_NAME
         self._game_id = Gameboard._generate_game_id(Gameboard.game_name)
         self._game_date = Gameboard._set_game_date()
         self.__set_list_of_word_lists()
@@ -306,7 +319,7 @@ class AnagramGameboard(Gameboard):
         elif(self.__user_score == 0):
             print("Aww, you didn't guess any anagrams for " + str(self.__word_length) + "-letter words." 
                   + "  Better luck next time!")
-        Gameboard._final_score = self.__user_score
+        self._final_score = self.__user_score
         self._reset_game()
         return
 ## END class

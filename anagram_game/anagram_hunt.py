@@ -19,6 +19,7 @@ class AnagramHunt():
         self._GAME_TIME = 60
         self._word_length = 5
         self._is_game_over = False
+        self._final_score = 0
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
@@ -108,6 +109,8 @@ def main():
             gameboard.start_game()
             ## If the game is over, but wasn't quit:
             if(gameboard._is_game_ended and not gameboard._was_game_quit):
+                player.add_game_played(gameboard._game_id, gameboard._GAME_NAME, gameboard._game_date, 
+                                       gameboard._final_score)
                 user_answer = game.ask_play_again()
                 if(user_answer == ""):
                     continue
