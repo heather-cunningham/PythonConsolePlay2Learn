@@ -155,8 +155,8 @@ class AnagramGameboard(Gameboard):
     ## @override
     def start_game(self):
         Gameboard.game_name = self.__GAME_NAME
-        self._game_id = Gameboard.generate_game_id(Gameboard.game_name)
-        self._game_date = Gameboard.set_game_date()
+        self._game_id = Gameboard._generate_game_id(Gameboard.game_name)
+        self._game_date = Gameboard._set_game_date()
         self.__set_list_of_word_lists()
         self.__set_word_list()
         self.__set_anagram_word()

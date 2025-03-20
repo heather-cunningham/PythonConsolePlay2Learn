@@ -14,8 +14,8 @@ class Gameboard(metaclass=ABCMeta):
         self.game_name = game_name
         ## Protected
         self._final_score = final_score
-        self._game_id = Gameboard.generate_game_id(game_name)
-        self._game_date = Gameboard.set_game_date()
+        self._game_id = Gameboard._generate_game_id(game_name)
+        self._game_date = Gameboard._set_game_date()
         ## Python convention of explicitly returning, even if empty, to mark the end of a method.
         return
     
@@ -30,9 +30,10 @@ class Gameboard(metaclass=ABCMeta):
         self._game_name = game_name
         return
     
-    
+
+    ## Protected
     @classmethod
-    def generate_game_id(cls, game_name):
+    def _generate_game_id(cls, game_name):
         """ Generates a unique ID for this game played of the game's initials appended with
           '_' and the epoch. """
         if(game_name):
@@ -50,8 +51,9 @@ class Gameboard(metaclass=ABCMeta):
         return None
 
 
+    ## Protected
     @classmethod
-    def set_game_date(cls):
+    def _set_game_date(cls):
         """ Sets the UTC date of the day the game was played. """
         now = datetime.now(timezone.utc)
         return datetime.combine(now.date(), now.time())
