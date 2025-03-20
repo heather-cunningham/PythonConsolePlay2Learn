@@ -38,7 +38,7 @@ class AnagramGameboard(Gameboard):
         self.__is_correct_answer = False
         self.__correct_guesses_list = []
         self.__timer = CountdownTimer(seconds=self._GAME_TIME)
-        ## Python convention of explicitly returning, even if empty, to mark the end of a method.
+        ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
 

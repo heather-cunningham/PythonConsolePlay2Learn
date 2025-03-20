@@ -20,7 +20,7 @@ def greet_user():
     print(_MARGIN_STR)
     print("1.)  Anagram Hunt -- How many anagrams can you find in 60 seconds?")
     print("2.)  Math Facts -- How many arithmetic problems can you solve in 30 seconds?\n")
-    ## Python convention of explicitly returning, even if empty, to mark the end of a method.
+    ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
     return
 
 

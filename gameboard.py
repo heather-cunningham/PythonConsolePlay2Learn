@@ -16,7 +16,7 @@ class Gameboard(metaclass=ABCMeta):
         self._final_score = final_score
         self._game_id = Gameboard._generate_game_id(game_name)
         self._game_date = Gameboard._set_game_date()
-        ## Python convention of explicitly returning, even if empty, to mark the end of a method.
+        ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
     
 

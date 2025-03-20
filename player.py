@@ -8,7 +8,7 @@ class Player():
         super().__init__()
         self._is_player_ready = is_player_ready
         self._games_played_list = []
-        ## Python convention of explicitly returning, even if empty, to mark the end of a method.
+        ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
     
 

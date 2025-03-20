@@ -19,7 +19,7 @@ class AnagramHunt():
         self._GAME_TIME = 60
         self._word_length = 5
         self._is_game_over = False
-        ## Python convention of explicitly returning, even if empty, to mark the end of a method.
+        ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
 
