@@ -63,7 +63,7 @@ def launch_game(game_to_play):
                 gameboard.start_game()
                 ## If the game is over, but wasn't quit:
                 if(gameboard._is_game_ended and not gameboard._was_game_quit):
-                    player.add_game_played(gameboard._game_id, gameboard._GAME_NAME, gameboard._game_date, 
+                    player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, gameboard._game_date, 
                                         gameboard._final_score)
                     user_answer = game.ask_play_again()
                     if(user_answer == ""):

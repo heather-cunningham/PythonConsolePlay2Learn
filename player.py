@@ -35,12 +35,12 @@ class Player():
         return
 
 
-    def add_game_played(self, game_id="", game_name="", game_date=None, final_score=0):
+    def add_game_played_in_round(self, game_id="", game_name="", game_date=None, final_score=0):
         if(game_id not in self._games_played_in_round_dict):
             self._games_played_in_round_dict[game_id] = [{"Game Name": game_name}, {"Game Date": game_date}, 
                                                {"Final Score": final_score}]
         else:
-            raise ValueError("Game_id in the player's played games dictionary already.")
+            raise ValueError("Game_id in the player's played games in this round's dictionary already.")
         return self._games_played_in_round_dict
 
 
