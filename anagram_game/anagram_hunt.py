@@ -5,18 +5,19 @@ sys.path.insert(0, project_root)
 from player import Player
 from helpers.margin_separator_module import get_margin_separator
 from anagram_game.anagram_gameboard import AnagramGameboard
-
+# from pprint import pprint
 
 ## BEGIN
 class AnagramHunt():
     """ The Anagram Hunt game """
 
+    __GAME_TIME = 10
+    # __GAME_TIME = 60
     
     def __init__(self):
         """ Creates the Anagram Hunt game's start page """
         super().__init__()
         self._MARGIN_STR = get_margin_separator()
-        self._GAME_TIME = 60
         self._word_length = 5
         self._is_game_over = False
         self._final_score = 0
@@ -39,7 +40,7 @@ class AnagramHunt():
         print(self._MARGIN_STR)
         print("Welcome to Anagram Hunt!")
         print(self._MARGIN_STR)
-        print("How many anagrams can you find in 60 seconds?")
+        print("How many anagrams can you find in", self.__class__.__GAME_TIME, "seconds?")
         print(self._MARGIN_STR)
         return
 
@@ -64,7 +65,7 @@ class AnagramHunt():
         self._word_length = word_length
         print(self._MARGIN_STR)
         print("\n* You selected a word length of:", self._word_length, "characters.")
-        print("* You have", self._GAME_TIME, 
+        print("* You have", self.__class__.__GAME_TIME, 
               "SECONDS on the clock to enter as many anagrams as you can from a list of",
               self._word_length, "letter words, displayed one at a time.")
         print("* Answers MUST include all of the letters in the original word", 
@@ -78,7 +79,7 @@ class AnagramHunt():
 
     def create_gameboard(self, word_length=5):
         self._word_length = word_length
-        gameboard = AnagramGameboard(self._word_length)
+        gameboard = AnagramGameboard(self._word_length, self.__class__.__GAME_TIME)
         return gameboard
     
 
@@ -86,6 +87,45 @@ class AnagramHunt():
         player_answer = (input("Are you ready to start playing Anagram Hunt? [y/n] ")).lower()
         return player_answer
     
+
+    def play_anagram_hunt(self, game, player):
+        if(game and player):
+            ## While the game is not over:
+            while(not game._is_game_over):
+                game.welcome_player()
+                word_length = game.select_word_length()
+                game.introduce_game(word_length)
+                gameboard = game.create_gameboard(word_length)
+                player_answer = game.check_player_ready()
+                if(player_answer == "y" or player_answer == "yes"):
+                    player._is_player_ready = True
+                    gameboard.start_game()
+                    ## If the game is over, but wasn't quit:
+                    if(gameboard._is_game_ended and not gameboard._was_game_quit):
+                        # played_games = 
+                        player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, 
+                                                        gameboard._game_date, gameboard._final_score)
+                        # pprint(played_games)
+                        user_answer = game.ask_play_again()
+                        if(user_answer == ""):
+                            continue
+                        else:
+                            gameboard.quit_game()
+                            gameboard._was_game_quit = True
+                            game._is_game_over = True
+                    else:
+                        game._is_game_over = True
+                        player_answer == "n"
+                        break
+                else:
+                    player._is_player_ready = False
+                    gameboard.quit_game()
+                    game._is_game_over = True
+            else:    
+                del gameboard
+                del game
+        return
+
 
     def ask_play_again(self):
         user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).lower()
@@ -96,39 +136,8 @@ class AnagramHunt():
 ## To run `anagram_hunt.py` stand-alone/individually
 def main():
     game = AnagramHunt()
-    ## While the game is not over:
-    while(not game._is_game_over):
-        player = Player()
-        game.welcome_player()
-        word_length = game.select_word_length()
-        game.introduce_game(word_length)
-        gameboard = game.create_gameboard(word_length)
-        player_answer = game.check_player_ready()
-        if(player_answer == "y" or player_answer == "yes"):
-            player._is_player_ready = True
-            gameboard.start_game()
-            ## If the game is over, but wasn't quit:
-            if(gameboard._is_game_ended and not gameboard._was_game_quit):
-                player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, gameboard._game_date, 
-                                       gameboard._final_score)
-                user_answer = game.ask_play_again()
-                if(user_answer == ""):
-                    continue
-                else:
-                    gameboard.quit_game()
-                    gameboard._was_game_quit = True
-                    game._is_game_over = True
-            else:
-                game._is_game_over = True
-                player_answer == "n"
-                break
-        else:
-            player._is_player_ready = False
-            gameboard.quit_game()
-            game._is_game_over = True
-    else:    
-        del gameboard
-        del game
+    player = Player()
+    game.play_anagram_hunt(game, player)
     return
 
 

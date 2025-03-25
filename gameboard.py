@@ -7,13 +7,13 @@ class Gameboard(metaclass=ABCMeta):
     """ Parent abstract class for the games. """
 
 
-    def __init__(self, game_name="", final_score=0):
+    def __init__(self, game_name=""):
         """ Creates an abstract parent Game """
         super().__init__()
         ## Public
         self.game_name = game_name
         ## Protected
-        self._final_score = final_score
+        self._final_score = 0
         self._game_id = Gameboard._generate_game_id(game_name)
         self._game_date = Gameboard._set_game_date()
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
@@ -28,6 +28,16 @@ class Gameboard(metaclass=ABCMeta):
     @game_name.setter
     def game_name(self, game_name=""):
         self._game_name = game_name
+        return
+    
+    @property
+    def final_score(self):
+        return self._final_score
+    
+
+    @final_score.setter
+    def final_score(self, final_score=0):
+        self._final_score = final_score
         return
     
 
@@ -54,9 +64,10 @@ class Gameboard(metaclass=ABCMeta):
     ## Protected
     @classmethod
     def _set_game_date(cls):
-        """ Sets the UTC date of the day the game was played. """
+        """ Sets the UTC date and time of the day and time the game was played, 
+        and returns it as a formatted string. """
         now = datetime.now(timezone.utc)
-        return datetime.combine(now.date(), now.time())
+        return now.strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
     @abstractmethod
@@ -117,15 +128,4 @@ class Gameboard(metaclass=ABCMeta):
     def _end_game(self):
         """ Ends the game. """
         pass
-
-
-    @property
-    def _final_score(self):
-        return self.__final_score
-    
-
-    @_final_score.setter
-    def _final_score(self, final_score=0):
-        self.__final_score = final_score
-        return
 ## END class

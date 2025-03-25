@@ -48,45 +48,14 @@ def select_game():
 
 
 def launch_game(game_to_play):
+    player = Player()
     if(game_to_play == 1): ## Anagram Hunt
         game = AnagramHunt()
-        ## While the game is not over:
-        while(not game._is_game_over):
-            player = Player()
-            game.welcome_player()
-            word_length = game.select_word_length()
-            game.introduce_game(word_length)
-            gameboard = game.create_gameboard(word_length)
-            player_answer = game.check_player_ready()
-            if(player_answer == "y" or player_answer == "yes"):
-                player._is_player_ready = True
-                gameboard.start_game()
-                ## If the game is over, but wasn't quit:
-                if(gameboard._is_game_ended and not gameboard._was_game_quit):
-                    player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, gameboard._game_date, 
-                                        gameboard._final_score)
-                    user_answer = game.ask_play_again()
-                    if(user_answer == ""):
-                        continue
-                    else:
-                        gameboard.quit_game()
-                        gameboard._was_game_quit = True
-                        game._is_game_over = True
-                else:
-                    game._is_game_over = True
-                    player_answer == "n"
-                    break
-            else:
-                player._is_player_ready = False
-                gameboard.quit_game()
-                game._is_game_over = True
-        else:    
-            del gameboard
-            del game
+        game.play_anagram_hunt(game, player)
     elif(game_to_play == 2):
         print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")
     else:
-        print("Invalid input!  Please, select: 1 for Anagram Hunt or 2 for Math Facts.")
+        raise ValueError("Invalid input! Neither 1 for Anagram Hunt, nor 2 for Math Facts selected.")
     return
 
 

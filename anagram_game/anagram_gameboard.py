@@ -10,18 +10,19 @@ from helpers.countdown_timer import CountdownTimer
 class AnagramGameboard(Gameboard):
     """ The gameboard for Anagram Hunt. """
 
+    _GAME_NAME = "Anagram Hunt"
 
-    def __init__(self, word_length=5):
+    def __init__(self, word_length=5, game_time=60):
         """ Creates a gameboard for the Anagram Hunt game and game play.
          
         Keyword arguments: `word_length` (int) -- The number of characters for the length of the words from which
-                                                  to make anagrams.  Defaults to 5. 
+                                                  to make anagrams.  Defaults to 5.
+                            `game_time`` (int) -- The number of seconds for the game interval and its timer.                        
         """
         super().__init__()
         ## Constants
         self._MARGIN_STR = get_margin_separator()
-        self._GAME_NAME = "Anagram Hunt"
-        self._GAME_TIME = 60
+        self._GAME_TIME = game_time
         ## Protected
         self._game_id = 0
         self._game_date = 0
@@ -44,35 +45,35 @@ class AnagramGameboard(Gameboard):
 
 
     @property
-    def _game_id(self):
-        return self.__game_id
+    def game_id(self):
+        return self._game_id
     
 
-    @_game_id.setter
-    def _game_id(self, game_id):
-        self.__game_id = game_id
+    @game_id.setter
+    def game_id(self, game_id):
+        self._game_id = game_id
         return
 
 
     @property
-    def _game_date(self):
-        return self.__game_date
+    def game_date(self):
+        return self._game_date
     
 
-    @_game_date.setter
-    def _game_date(self, game_date):
-        self.__game_date = game_date        
+    @game_date.setter
+    def game_date(self, game_date):
+        self._game_date = game_date        
         return
     
 
     @property
-    def _final_score(self):
-        return self.__final_score
+    def final_score(self):
+        return self._final_score
     
 
-    @_final_score.setter
-    def _final_score(self, user_score):
-        self.__final_score = user_score        
+    @final_score.setter
+    def final_score(self, user_score):
+        self._final_score = user_score        
         return
 
 
@@ -167,7 +168,7 @@ class AnagramGameboard(Gameboard):
 
     ## @override
     def start_game(self):
-        Gameboard.game_name = self._GAME_NAME
+        Gameboard.game_name = self.__class__._GAME_NAME
         self._game_id = Gameboard._generate_game_id(Gameboard.game_name)
         self._game_date = Gameboard._set_game_date()
         self.__set_list_of_word_lists()

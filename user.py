@@ -1,4 +1,5 @@
 import time
+from collections import namedtuple
 
 ## BEGIN
 class User():
@@ -6,6 +7,9 @@ class User():
 
 
     __registry_dict = {}
+    GameData = namedtuple("GameData", 
+                          ["game_name", "game_date", "final_score", "user_id", "username"])
+    HighestScoreGame = namedtuple("HighestScoreGame", ["game_name", "high_score"])
 
 
     def __init__(self, user_id=None, username=""):
@@ -20,10 +24,10 @@ class User():
                 self.__initialize_existing_user(existing_user)
         else:
             self.__user_id = self.__generate_user_id()
-            self.__username = username
-            self.__is_new_user = True
-            self.__all_games_played_dict = {}
-            self.__high_score = 0
+            self._is_new_user = True
+            self._username = username
+            self._all_games_played_dict = {}
+            self._high_score = ()
             self.__class__._add_user_to_registry(self)
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
@@ -36,33 +40,39 @@ class User():
 
     @property
     def username(self):
-        return self.__username
+        return self._username
     
 
     @username.setter
     def username(self, username):
-        self.__username = username
+        self._username = username
         return
     
 
     @property
     def is_new_user(self):
-        return self.__is_new_user
+        return self._is_new_user
     
 
     @property
     def all_games_played_dict(self):
-        return self.__all_games_played_dict
+        return self._all_games_played_dict
     
+
+    @all_games_played_dict.setter
+    def all_games_played_dict(self, games_played_dict):
+        self._all_games_played_dict = games_played_dict
+        return
+
 
     @property
     def high_score(self):
-        return self.__high_score
+        return self._high_score
     
 
     @high_score.setter
-    def high_score(self, high_score):
-        self.__high_score = high_score
+    def high_score(self, high_score_tple):
+        self._high_score = high_score_tple
         return 
 
 
@@ -70,10 +80,10 @@ class User():
     def __initialize_existing_user(self, existing_user):
         """ Initialize an existing user from existing data. """
         self.__user_id = existing_user.user_id
-        self.__username = existing_user.username
-        self.__is_new_user = False
-        self.__all_games_played_dict = existing_user.all_games_played_dict
-        self.__high_score = existing_user.high_score
+        self._username = existing_user.username
+        self._is_new_user = False
+        self.all_games_played_dict = existing_user.all_games_played_dict
+        self.high_score = self.calc_high_score(self.__user_id)
         
 
     ## Private
@@ -100,11 +110,11 @@ class User():
         if(not cls._check_user_exists(user.user_id)):
             cls.__registry_dict[user.user_id] = user
         return
-    
+        
 
     @classmethod
     def get_user_by_id(cls, user_id):
-        """ Get this user from the dictionary by user_id. If not found, return None by default. 
+        """ Get this user from the registry dictionary by user_id. If not found, return None by default. 
 
         parameters: `user_id` (int) """
         return cls.__registry_dict.get(user_id, None)
@@ -115,4 +125,53 @@ class User():
         """ Get all registered users returned in a dictionary with keys of user_ids
           and values of user properties. """
         return cls.__registry_dict
+
+    
+    def get_played_game_by_id(self, game_id):
+        """ Get a played game from the user's dictionary of all played games by game_id. 
+        If not found, return None by default. 
+
+        parameters: `game_id` (str) """
+        return self._all_games_played_dict.get(game_id, None)
+
+
+    def add_games_to_all_played_games_dict(self, games_played_in_round_dict):
+        """ Add games played in round to User's history of all games played if the game_id is  not
+        in their `_all_games_played_dict` yet. 
+
+        parameters: `games_played_in_round_dict` (dict) """
+        for game_id in games_played_in_round_dict:
+            if(not self.get_played_game_by_id(game_id)):
+                game_data = self.__class__.GameData(
+                    game_name = games_played_in_round_dict[game_id].game_name,
+                    game_date = games_played_in_round_dict[game_id].game_date,
+                    final_score = games_played_in_round_dict[game_id].final_score,
+                    user_id = self.user_id,
+                    username = self.username
+                )
+                self._all_games_played_dict[game_id] = game_data
+        return
+    
+
+    def get_all_games_played_by_user_id(self, user_id):
+        """ If this user exists in the registry, return all the games they've played. """
+        if(self.__class__.get_user_by_id(user_id)):
+            return self.all_games_played_dict
+        return None
+
+
+    def calc_high_score(self, user_id):
+        played_games_dict = self.get_all_games_played_by_user_id(user_id)
+        game_id_w_max_score = max(
+            played_games_dict.keys(),
+            key=lambda game_id: played_games_dict[game_id].final_score 
+        )
+        game_name_w_max_score = played_games_dict[game_id_w_max_score].game_name
+        max_score = played_games_dict[game_id_w_max_score].final_score
+        high_score_game_data = self.__class__.HighestScoreGame(
+            game_name = game_name_w_max_score,
+            high_score = max_score
+        )
+        self.high_score = high_score_game_data
+        return high_score_game_data
 ## END class
