@@ -79,7 +79,7 @@ class User():
     ## Private
     def __generate_user_id(self):
         """ Generates a unique user_id from the epoch. """
-        time.sleep(0.001)  # Small delay to avoid collisions
+        time.sleep(0.001)  ## Small delay to avoid collisions
         user_id = int(time.time())
         if(not self.__class__._check_user_exists(user_id)):
             return user_id
