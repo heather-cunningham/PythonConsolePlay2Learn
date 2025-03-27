@@ -26,13 +26,13 @@ class AnagramHunt():
 
 
     @property
-    def _is_game_over(self):
-        return self.__is_game_over
+    def is_game_over(self):
+        return self._is_game_over
     
 
-    @_is_game_over.setter
-    def _is_game_over(self, is_game_over):
-        self.__is_game_over = is_game_over
+    @is_game_over.setter
+    def is_game_over(self, is_game_over):
+        self._is_game_over = is_game_over
         return
     
 
@@ -91,7 +91,7 @@ class AnagramHunt():
     def play_anagram_hunt(self, game, player):
         if(game and player):
             ## While the game is not over:
-            while(not game._is_game_over):
+            while(not game.is_game_over):
                 game.welcome_player()
                 word_length = game.select_word_length()
                 game.introduce_game(word_length)

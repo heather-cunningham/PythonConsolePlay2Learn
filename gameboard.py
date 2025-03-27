@@ -10,15 +10,26 @@ class Gameboard(metaclass=ABCMeta):
     def __init__(self, game_name=""):
         """ Creates an abstract parent Game """
         super().__init__()
-        ## Public
-        self.game_name = game_name
         ## Protected
-        self._final_score = 0
         self._game_id = Gameboard._generate_game_id(game_name)
         self._game_date = Gameboard._set_game_date()
+        self._game_name = game_name
+        self._final_score = 0
+        self._is_game_ended = False
+        self._was_game_quit = False
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
     
+
+    @property
+    def game_id(self):
+        return self._game_id
+
+
+    @property
+    def game_date(self):
+        return self._game_date
+
 
     @property
     def game_name(self):
@@ -30,14 +41,37 @@ class Gameboard(metaclass=ABCMeta):
         self._game_name = game_name
         return
     
+
     @property
     def final_score(self):
         return self._final_score
     
 
     @final_score.setter
-    def final_score(self, final_score=0):
-        self._final_score = final_score
+    def final_score(self, user_score=0):
+        self._final_score = user_score
+        return
+    
+    
+    @property
+    def was_game_quit(self):
+        return self._was_game_quit
+    
+
+    @was_game_quit.setter
+    def was_game_quit(self, was_game_quit):
+        self._was_game_quit = was_game_quit        
+        return
+    
+
+    @property
+    def is_game_ended(self):
+        return self._is_game_ended
+    
+
+    @is_game_ended.setter
+    def is_game_ended(self, is_game_ended):
+        self._is_game_ended = is_game_ended        
         return
     
 

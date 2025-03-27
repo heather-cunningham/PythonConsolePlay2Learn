@@ -44,39 +44,6 @@ class AnagramGameboard(Gameboard):
         return
 
 
-    @property
-    def game_id(self):
-        return self._game_id
-    
-
-    @game_id.setter
-    def game_id(self, game_id):
-        self._game_id = game_id
-        return
-
-
-    @property
-    def game_date(self):
-        return self._game_date
-    
-
-    @game_date.setter
-    def game_date(self, game_date):
-        self._game_date = game_date        
-        return
-    
-
-    @property
-    def final_score(self):
-        return self._final_score
-    
-
-    @final_score.setter
-    def final_score(self, user_score):
-        self._final_score = user_score        
-        return
-
-
     ## Private
     def __get_abs_filepath(self, rel_filepath_str):
         folder_name = os.path.dirname(os.path.abspath(__file__))
