@@ -1,5 +1,7 @@
 import time
+import re
 from collections import namedtuple
+from helpers.margin_separator_module import get_margin_separator
 
 ## BEGIN
 class User():
@@ -12,31 +14,62 @@ class User():
     HighestScoreGame = namedtuple("HighestScoreGame", ["game_name", "high_score"])
 
 
-    def __init__(self, user_id=None, username=""):
+    def __init__(self, user_id=None, username="", first_name="", last_name=""):
         """ Creates a user with a unique id or gets an existing user by `user_id`. 
         
         If `user_id` exists, the user is initialized from the registry, 
         else a new user is created. """
-        if(user_id and self.__class__._check_user_exists(user_id)):
+        if(user_id and self.__class__._check_user_exists(user_id, username)):
             ## If the user exists already, get the user by id:
             existing_user = self.__class__.get_user_by_id(user_id)
             if(existing_user):
                 self.__initialize_existing_user(existing_user)
         else:
-            self.__user_id = self.__generate_user_id()
+            self._first_name = first_name
+            self._last_name = last_name
+            self.__full_name = self.first_name + " " +  self.last_name 
+            self.__user_id = self.__generate_user_id(username)
             self._is_new_user = True
             self._username = username
             self._all_games_played_dict = {}
             self._high_score = ()
             self.__class__._add_user_to_registry(self)
+        self._MARGIN_STR = get_margin_separator()
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
     
 
     @property
+    def first_name(self):
+        return self._first_name
+    
+
+    @first_name.setter
+    def first_name(self, first_name):
+        self._first_name = first_name
+        return
+    
+
+    @property
+    def last_name(self):
+        return self._last_name
+    
+
+    @last_name.setter
+    def first_name(self, last_name):
+        self._last_name = last_name
+        return
+    
+
+    @property
+    def _full_name(self):
+        return self.__full_name
+    
+
+    @property
     def user_id(self):
         return self.__user_id
-    
+
 
     @property
     def username(self):
@@ -52,6 +85,12 @@ class User():
     @property
     def is_new_user(self):
         return self._is_new_user
+    
+
+    @is_new_user.setter
+    def is_new_user(self, is_new):
+        self._is_new_user = is_new
+        return 
     
 
     @property
@@ -79,6 +118,9 @@ class User():
     ## Private
     def __initialize_existing_user(self, existing_user):
         """ Initialize an existing user from existing data. """
+        self._first_name = existing_user.first_name
+        self._last_name = existing_user.last_name
+        self.__full_name = existing_user.first_name + " " + existing_user.last_name 
         self.__user_id = existing_user.user_id
         self._username = existing_user.username
         self._is_new_user = False
@@ -87,18 +129,30 @@ class User():
         
 
     ## Private
-    def __generate_user_id(self):
+    def __generate_user_id(self, username):
         """ Generates a unique user_id from the epoch. """
         time.sleep(0.001)  ## Small delay to avoid collisions
         user_id = int(time.time())
-        if(not self.__class__._check_user_exists(user_id)):
+        if(not self.__class__._check_user_exists(user_id, username)):
             return user_id
         return None
-
+    
 
     @classmethod
-    def _check_user_exists(cls, user_id):
-        return False if(cls.get_user_by_id(user_id) is None) else True 
+    def _check_user_exists(cls, user_id, username):
+        user = cls.get_user_by_id(user_id) 
+        if(user):
+            if(user.username == username):
+                return True
+        return False
+    
+
+    @classmethod
+    def _check_username_exists(cls, username):
+        """ Check if any User has this username already in the registry. 
+
+        returns: True when first match is found, else False. """
+        return any(user.username == username for user in cls.__registry_dict.values())
 
 
     @classmethod
@@ -107,7 +161,7 @@ class User():
         Else, do nothing. 
         
         parameters: `user` (object) """
-        if(not cls._check_user_exists(user.user_id)):
+        if(not cls._check_user_exists(user.user_id, user.username)):
             cls.__registry_dict[user.user_id] = user
         return
         
@@ -121,12 +175,52 @@ class User():
     
 
     @classmethod
+    def get_user_by_username(cls, username):
+        """ Get this user from the registry dictionary by username. If not found, return None by default. 
+
+        parameters: `username` (str) """
+        for user in cls.__registry_dict.values():
+            if user.username == username:
+                user_obj = cls.get_user_by_id(user.user_id)
+                if(user_obj):
+                    return user_obj
+        return None
+
+
+    @classmethod
     def get_all_users(cls):
         """ Get all registered users returned in a dictionary with keys of user_ids
           and values of user properties. """
         return cls.__registry_dict
-
     
+
+    @classmethod
+    def _validate_username(cls, username):
+        pattern = r'^[\w\-]+$'
+        if(cls._check_username_exists(username)):
+            print("Sorry, that username is in use already.")
+            return False
+        elif(len(username) > 25):
+            print("Sorry, usernames must be 25 characters or less.")
+            return False
+        elif(not re.match(pattern, username)):
+            print("Sorry, usernames may contain alpha-numeric characters, underscores, and hyphens (dashes) only.")
+            return False
+        return True
+    
+
+    @classmethod
+    def _validate_persons_name(cls, persons_name):
+        pattern = r'^[a-zA-Z\-]+$'
+        if(len(persons_name) > 25):
+            print("Sorry, first and last names must be 25 characters or less.")
+            return False
+        elif(not re.match(pattern, persons_name)):
+            print("Sorry, first and last names may contain alphabetical characters and hyphens or dashes only.")
+            return False
+        return True
+
+
     def get_played_game_by_id(self, game_id):
         """ Get a played game from the user's dictionary of all played games by game_id. 
         If not found, return None by default. 

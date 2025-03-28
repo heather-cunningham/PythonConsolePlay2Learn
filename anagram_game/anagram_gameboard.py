@@ -162,7 +162,7 @@ class AnagramGameboard(Gameboard):
     ## Protected
     ## @override
     def _check_for_correct_answer(self, guess):
-        guess = guess.lower()
+        guess = guess.strip().lower()
         if(guess == self.__anagram_word): ## Guessed same word as in the question
             print("\n* You can't guess: " + self.__anagram_word.title() 
                   + ".  It's the same word as the question.  Please, try again.\n")
@@ -216,14 +216,14 @@ class AnagramGameboard(Gameboard):
             ## While there are words still in this word_list of this char length, and still time:
             while (len(self.__word_list) > 0 and self.__timer is not None and self.__timer.seconds > 0):
                 self.__user_answer = self._ask_question(self.__anagram_word)
-                if (self.__user_answer.lower() == "zzz"):
+                if (self.__user_answer.strip().lower() == "zzz"):
                     self.quit_game()
                     return
                 is_correct = self._check_for_correct_answer(self.__user_answer)
                 self.__show_user_display()
                 while (not is_correct and self.__timer is not None and self.__timer.seconds > 0):
                     self.__user_answer = self._ask_question(self.__anagram_word)
-                    if (self.__user_answer.lower() == "zzz"):
+                    if (self.__user_answer.strip().lower() == "zzz"):
                         self.quit_game()
                         return
                     is_correct = self._check_for_correct_answer(self.__user_answer)

@@ -10,9 +10,10 @@ class Player(User):
     GameRoundData = namedtuple("GameRoundData", ["game_name", "game_date", "final_score"])
 
 
-    def __init__(self, is_player_ready=False):
+    def __init__(self, user_id=None, username="", first_name="", last_name="", is_player_ready=False):
         """ Creates a player for a game """
-        super().__init__()
+        ## Pass User parameters to parent User() Class:
+        super().__init__(user_id=user_id, username=username, first_name=first_name, last_name=last_name)
         self._is_player_ready = is_player_ready
         self._games_played_in_round_dict = {}
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
@@ -59,5 +60,4 @@ class Player(User):
         else:
             raise ValueError("Invalid or no game_id or game_name passed in.")
         return
-        # return self._games_played_in_round_dict
 ## END class

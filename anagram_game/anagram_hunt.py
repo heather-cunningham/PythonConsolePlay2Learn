@@ -4,6 +4,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 from player import Player
 from helpers.margin_separator_module import get_margin_separator
+from helpers.prompt_player_for_user import prompt_player_for_user_info, prompt_player_for_new_user_info
 from anagram_game.anagram_gameboard import AnagramGameboard
 # from pprint import pprint
 
@@ -36,9 +37,9 @@ class AnagramHunt():
         return
     
 
-    def welcome_player(self):
+    def welcome_player(self, player):
         print(self._MARGIN_STR)
-        print("Welcome to Anagram Hunt!")
+        print("Hello, " + player.username + "! Welcome to Anagram Hunt!")
         print(self._MARGIN_STR)
         print("How many anagrams can you find in", self.__class__.__GAME_TIME, "seconds?")
         print(self._MARGIN_STR)
@@ -84,7 +85,7 @@ class AnagramHunt():
     
 
     def check_player_ready(self):
-        player_answer = (input("Are you ready to start playing Anagram Hunt? [y/n] ")).lower()
+        player_answer = (input("Are you ready to start playing Anagram Hunt? [y/n] ")).strip().lower()
         return player_answer
     
 
@@ -92,7 +93,7 @@ class AnagramHunt():
         if(game and player):
             ## While the game is not over:
             while(not game.is_game_over):
-                game.welcome_player()
+                game.welcome_player(player)
                 word_length = game.select_word_length()
                 game.introduce_game(word_length)
                 gameboard = game.create_gameboard(word_length)
@@ -128,7 +129,7 @@ class AnagramHunt():
 
 
     def ask_play_again(self):
-        user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).lower()
+        user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
         return user_answer
 ## END class
 
@@ -136,7 +137,13 @@ class AnagramHunt():
 ## To run `anagram_hunt.py` stand-alone/individually
 def main():
     game = AnagramHunt()
-    player = Player()
+    user = prompt_player_for_user_info()
+    if(user): ## If returning User, init existing user:
+        player = Player(user_id=user.user_id, username=user.username)
+    else: ## If new, init new User:
+        (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
+        player = Player(user_id=None, username=new_username, first_name=new_first_name,
+                         last_name=new_last_name)
     game.play_anagram_hunt(game, player)
     return
 
