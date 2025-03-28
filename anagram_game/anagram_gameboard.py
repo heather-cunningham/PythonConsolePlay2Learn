@@ -274,19 +274,21 @@ class AnagramGameboard(Gameboard):
     ## Protected 
     ## @override
     def _end_game(self):
-        if(self.__timer is not None and self.__timer.seconds > 0):
-            self._stop_game_timer()
-            print("You guessed all " + str(self.__user_score) + " anagrams for " + str(self.__word_length) 
-                  + "-letter words before the " + str(self._GAME_TIME) + " seconds expired!!!")
+        print("GAME OVER:")
+        if(self.__user_score > 0):
+            if(self.__timer is not None and self.__timer.seconds > 0):
+                self._stop_game_timer()
+                print("CONGRATS!!! You guessed all " + str(self.__user_score) + " anagrams for " + str(self.__word_length) 
+                    + "-letter words before the " + str(self._GAME_TIME) + " seconds expired!!!")
+            else:
+                print("Time's up!!!")
+                print("Sorry, you didn't get that last one in on time.")
+                print(f"You guessed {self.__user_score} anagrams for {self.__word_length}-letter words!")    
+            print("Good for you! :)  Hooray!!!")
         else:
             print("Time's up!!!")
-            print("Sorry, you didn't get that last one in on time.")
-        if(self.__user_score > 0):
-            print(f"You guessed {self.__user_score} anagrams for {self.__word_length}-letter words!")
-            print("Good for you! :)  Hooray!!!")
-        elif(self.__user_score == 0):
             print("Aww, you didn't guess any anagrams for " + str(self.__word_length) + "-letter words." 
-                  + "  Better luck next time!")
+                    + "  Better luck next time!")
         self._final_score = self.__user_score
         self._reset_game()
         return
