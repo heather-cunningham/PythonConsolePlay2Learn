@@ -1,6 +1,7 @@
 from player import Player
 from anagram_game.anagram_hunt import AnagramHunt
 from helpers.margin_separator_module import get_margin_separator
+from helpers.prompt_player_for_user import prompt_player_for_user_info, prompt_player_for_new_user_info
 
 
 ## Play2Learn3
@@ -48,9 +49,15 @@ def select_game():
 
 
 def launch_game(game_to_play):
-    player = Player()
     if(game_to_play == 1): ## Anagram Hunt
         game = AnagramHunt()
+        user = prompt_player_for_user_info()
+        if(user): ## If returning User:
+            player = Player(user_id=user.user_id, username=user.username)
+        else: ## new user
+            (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
+            player = Player(user_id=None, username=new_username, first_name=new_first_name,
+                            last_name=new_last_name)
         game.play_anagram_hunt(game, player)
     elif(game_to_play == 2):
         print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")

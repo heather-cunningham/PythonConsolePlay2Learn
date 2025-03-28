@@ -32,7 +32,7 @@ class User():
             self._is_new_user = True
             self._username = username
             self._all_games_played_dict = {}
-            self._high_score = ()
+            self._high_score = self.calc_high_score()
             self.__class__._add_user_to_registry(self)
         self._MARGIN_STR = get_margin_separator()
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
@@ -125,7 +125,7 @@ class User():
         self._username = existing_user.username
         self._is_new_user = False
         self.all_games_played_dict = existing_user.all_games_played_dict
-        self.high_score = self.calc_high_score(self.__user_id)
+        self.high_score = self.calc_high_score()
         
 
     ## Private
@@ -247,25 +247,34 @@ class User():
         return
     
 
-    def get_all_games_played_by_user_id(self, user_id):
+    def get_all_games_played_by_user_id(self):
         """ If this user exists in the registry, return all the games they've played. """
-        if(self.__class__.get_user_by_id(user_id)):
-            return self.all_games_played_dict
-        return None
+        user = self.__class__.get_user_by_id(self.user_id)
+        if(user):
+            return user.all_games_played_dict
+        else:
+            print("User not found. Can't get all user's played games.")
+            return None
 
 
-    def calc_high_score(self, user_id):
-        played_games_dict = self.get_all_games_played_by_user_id(user_id)
-        game_id_w_max_score = max(
-            played_games_dict.keys(),
-            key=lambda game_id: played_games_dict[game_id].final_score 
-        )
-        game_name_w_max_score = played_games_dict[game_id_w_max_score].game_name
-        max_score = played_games_dict[game_id_w_max_score].final_score
-        high_score_game_data = self.__class__.HighestScoreGame(
-            game_name = game_name_w_max_score,
-            high_score = max_score
-        )
+    def calc_high_score(self):
+        played_games_dict = self.get_all_games_played_by_user_id()
+        if(played_games_dict):
+            game_id_w_max_score = max(
+                played_games_dict.keys(),
+                key=lambda game_id: played_games_dict[game_id].final_score 
+            )
+            game_name_w_max_score = played_games_dict[game_id_w_max_score].game_name
+            max_score = played_games_dict[game_id_w_max_score].final_score
+            high_score_game_data = self.__class__.HighestScoreGame(
+                game_name = game_name_w_max_score,
+                high_score = max_score
+            )
+        else:
+            high_score_game_data = self.__class__.HighestScoreGame(
+                game_name = "No games played yet",
+                high_score = 0
+            )
         self.high_score = high_score_game_data
         return high_score_game_data
 ## END class

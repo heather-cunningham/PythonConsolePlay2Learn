@@ -6,7 +6,7 @@ def prompt_player_for_user_info():
         prompt = ""
         while(prompt != "r" and prompt != "n"): 
             prompt = (
-                input("Hi! Welcome to Play2Learn! Are you a new or returning user? [n = new / r = returning]: ")
+                input("Hiya! Are you a new or returning user? [n = new / r = returning]: ")
             ).strip().lower()
             if(prompt == "r"): ## returning User
                 username = (input("Please, enter your username: ")).strip().replace(" ", "")

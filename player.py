@@ -43,7 +43,7 @@ class Player(User):
             Key = game_id
             Values = namedtuple, `GameRoundData`, which consists of attributes:
             # "game_name", "game_date", and "final_score". """
-        return dict(self._games_played_in_round_dict)
+        return self._games_played_in_round_dict
 
 
     def add_game_played_in_round(self, game_id="", game_name="", game_date=None, final_score=0):

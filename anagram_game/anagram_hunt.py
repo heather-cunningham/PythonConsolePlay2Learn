@@ -2,19 +2,21 @@ import sys
 import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
+from pprint import pprint
 from player import Player
 from helpers.margin_separator_module import get_margin_separator
 from helpers.prompt_player_for_user import prompt_player_for_user_info, prompt_player_for_new_user_info
 from anagram_game.anagram_gameboard import AnagramGameboard
-# from pprint import pprint
+
 
 ## BEGIN
 class AnagramHunt():
     """ The Anagram Hunt game """
 
-    __GAME_TIME = 10
-    # __GAME_TIME = 60
     
+    __GAME_TIME = 60
+    
+
     def __init__(self):
         """ Creates the Anagram Hunt game's start page """
         super().__init__()
@@ -103,10 +105,8 @@ class AnagramHunt():
                     gameboard.start_game()
                     ## If the game is over, but wasn't quit:
                     if(gameboard._is_game_ended and not gameboard._was_game_quit):
-                        # played_games = 
                         player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, 
                                                         gameboard._game_date, gameboard._final_score)
-                        # pprint(played_games)
                         user_answer = game.ask_play_again()
                         if(user_answer == ""):
                             continue
@@ -122,7 +122,11 @@ class AnagramHunt():
                     player._is_player_ready = False
                     gameboard.quit_game()
                     game._is_game_over = True
-            else:    
+            else:
+                player.add_games_to_all_played_games_dict(player.games_played_in_round_dict)
+                high_score = player.calc_high_score()
+                print(self._MARGIN_STR + "\nYour highest scoring game so far is:\n" + self._MARGIN_STR)
+                pprint(high_score)
                 del gameboard
                 del game
         return
@@ -138,9 +142,9 @@ class AnagramHunt():
 def main():
     game = AnagramHunt()
     user = prompt_player_for_user_info()
-    if(user): ## If returning User, init existing user:
+    if(user): ## If returning User:
         player = Player(user_id=user.user_id, username=user.username)
-    else: ## If new, init new User:
+    else: ## new User:
         (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
         player = Player(user_id=None, username=new_username, first_name=new_first_name,
                          last_name=new_last_name)
