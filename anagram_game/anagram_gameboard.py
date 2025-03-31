@@ -2,7 +2,6 @@ import os
 import json
 import random
 from gameboard import Gameboard
-from helpers.margin_separator_module import get_margin_separator
 from helpers.countdown_timer import CountdownTimer
 
 
@@ -11,16 +10,15 @@ class AnagramGameboard(Gameboard):
     """ The gameboard for Anagram Hunt. """
 
 
-    def __init__(self, word_length=5, game_name="Anagram Hunt", game_time=60):
+    def __init__(self, game_name="Anagram Hunt", game_time=60, word_length=5):
         """ Creates a gameboard for the Anagram Hunt game and game play.
          
         Keyword arguments: `word_length` (int) -- The number of characters for the length of the words from which
                                                   to make anagrams.  Defaults to 5.
-                            `game_time`` (int) -- The number of seconds for the game interval and its timer.                        
+                            `game_time` (int) -- The number of seconds for the game interval and its timer.                        
         """
-        super().__init__()
+        super().__init__(game_name=game_name)
         ## Constants
-        self._MARGIN_STR = get_margin_separator()
         self._GAME_NAME = game_name
         self._GAME_TIME = game_time
         ## Protected

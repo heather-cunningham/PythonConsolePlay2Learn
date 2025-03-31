@@ -49,17 +49,18 @@ def select_game():
 
 
 def launch_game(game_to_play):
+    user = prompt_player_for_user_info()
+    if(user): ## If returning User:
+        player = Player(user_id=user.user_id, username=user.username)
+    else: ## new user
+        (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
+        player = Player(user_id=None, username=new_username, first_name=new_first_name,
+                        last_name=new_last_name)
+    #
     if(game_to_play == 1): ## Anagram Hunt
         game = AnagramHunt()
-        user = prompt_player_for_user_info()
-        if(user): ## If returning User:
-            player = Player(user_id=user.user_id, username=user.username)
-        else: ## new user
-            (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
-            player = Player(user_id=None, username=new_username, first_name=new_first_name,
-                            last_name=new_last_name)
-        game.play_anagram_hunt(player) 
-    elif(game_to_play == 2):
+        game.play_anagram_hunt(player=player)
+    elif(game_to_play == 2): ## Math Facts 
         print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")
     else:
         raise ValueError("Invalid input! Neither 1 for Anagram Hunt, nor 2 for Math Facts selected.")
