@@ -14,6 +14,7 @@ class AnagramHunt():
     """ The Anagram Hunt game """
 
     
+    __GAME_NAME = "Anagram Hunt"
     __GAME_TIME = 60
     
 
@@ -41,7 +42,7 @@ class AnagramHunt():
 
     def welcome_player(self, player):
         print(self._MARGIN_STR)
-        print("Hello, " + player.username + "! Welcome to Anagram Hunt!")
+        print("Hello, " + player.username + "! Welcome to " + self.__class__.__GAME_NAME + "!")
         print(self._MARGIN_STR)
         print("How many anagrams can you find in", self.__class__.__GAME_TIME, "seconds?")
         print(self._MARGIN_STR)
@@ -82,12 +83,14 @@ class AnagramHunt():
 
     def create_gameboard(self, word_length=5):
         self._word_length = word_length
-        gameboard = AnagramGameboard(self._word_length, self.__class__.__GAME_TIME)
+        gameboard = AnagramGameboard(self._word_length, self.__class__.__GAME_NAME, self.__class__.__GAME_TIME)
         return gameboard
     
 
     def check_player_ready(self):
-        player_answer = (input("Are you ready to start playing Anagram Hunt? [y/n] ")).strip().lower()
+        player_answer = (
+            input(f"Are you ready to start playing {self.__class__.__GAME_NAME}? [y/n] ")
+        ).strip().lower()
         return player_answer
     
 

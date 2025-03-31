@@ -10,9 +10,8 @@ from helpers.countdown_timer import CountdownTimer
 class AnagramGameboard(Gameboard):
     """ The gameboard for Anagram Hunt. """
 
-    _GAME_NAME = "Anagram Hunt"
 
-    def __init__(self, word_length=5, game_time=60):
+    def __init__(self, word_length=5, game_name="Anagram Hunt", game_time=60):
         """ Creates a gameboard for the Anagram Hunt game and game play.
          
         Keyword arguments: `word_length` (int) -- The number of characters for the length of the words from which
@@ -22,6 +21,7 @@ class AnagramGameboard(Gameboard):
         super().__init__()
         ## Constants
         self._MARGIN_STR = get_margin_separator()
+        self._GAME_NAME = game_name
         self._GAME_TIME = game_time
         ## Protected
         self._game_id = 0
@@ -135,7 +135,7 @@ class AnagramGameboard(Gameboard):
 
     ## @override
     def start_game(self):
-        Gameboard.game_name = self.__class__._GAME_NAME
+        Gameboard.game_name = self._GAME_NAME
         self._game_id = Gameboard._generate_game_id(Gameboard.game_name)
         self._game_date = Gameboard._set_game_date()
         self.__set_list_of_word_lists()
