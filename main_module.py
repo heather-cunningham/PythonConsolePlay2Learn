@@ -58,7 +58,7 @@ def launch_game(game_to_play):
             (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
             player = Player(user_id=None, username=new_username, first_name=new_first_name,
                             last_name=new_last_name)
-        game.play_anagram_hunt(game, player)
+        game.play_anagram_hunt(player) 
     elif(game_to_play == 2):
         print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")
     else:

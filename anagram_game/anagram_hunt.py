@@ -48,8 +48,8 @@ class AnagramHunt():
         print(self._MARGIN_STR)
         return
 
-
-    def select_word_length(self):
+    ## Private
+    def __select_word_length(self):
         self._word_length = 0
         ERROR_MSG = "is not a number from 5 through 8."
         while(self._word_length < 5 or self._word_length > 8):
@@ -94,15 +94,15 @@ class AnagramHunt():
         return player_answer
     
 
-    def play_anagram_hunt(self, game, player):
-        if(game and player):
+    def play_anagram_hunt(self, player):
+        if(player):
             ## While the game is not over:
-            while(not game.is_game_over):
-                game.welcome_player(player)
-                word_length = game.select_word_length()
-                game.introduce_game(word_length)
-                gameboard = game.create_gameboard(word_length)
-                player_answer = game.check_player_ready()
+            while(not self.is_game_over):
+                self.welcome_player(player)
+                word_length = self.__select_word_length()
+                self.introduce_game(word_length)
+                gameboard = self.create_gameboard(word_length)
+                player_answer = self.check_player_ready()
                 if(player_answer == "y" or player_answer == "yes"):
                     player._is_player_ready = True
                     gameboard.start_game()
@@ -110,28 +110,27 @@ class AnagramHunt():
                     if(gameboard._is_game_ended and not gameboard._was_game_quit):
                         player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, 
                                                         gameboard._game_date, gameboard._final_score)
-                        user_answer = game.ask_play_again()
+                        user_answer = self.ask_play_again()
                         if(user_answer == ""):
                             continue
                         else:
                             gameboard.quit_game()
                             gameboard._was_game_quit = True
-                            game._is_game_over = True
+                            self._is_game_over = True
                     else:
-                        game._is_game_over = True
+                        self._is_game_over = True
                         player_answer == "n"
                         break
                 else:
                     player._is_player_ready = False
                     gameboard.quit_game()
-                    game._is_game_over = True
+                    self._is_game_over = True
             else:
                 player.add_games_to_all_played_games_dict(player.games_played_in_round_dict)
                 high_score = player.calc_high_score()
                 print(self._MARGIN_STR + "\nYour highest scoring game so far is:\n" + self._MARGIN_STR)
                 pprint(high_score)
                 del gameboard
-                del game
         return
 
 
@@ -151,7 +150,7 @@ def main():
         (new_first_name, new_last_name, new_username) = prompt_player_for_new_user_info()
         player = Player(user_id=None, username=new_username, first_name=new_first_name,
                          last_name=new_last_name)
-    game.play_anagram_hunt(game, player)
+    game.play_anagram_hunt(player) 
     return
 
 
