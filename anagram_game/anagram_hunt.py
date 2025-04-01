@@ -88,7 +88,8 @@ class AnagramHunt():
 
     def create_gameboard(self, word_length=5):
         self._word_length = word_length
-        gameboard = AnagramGameboard(game_name=self.__class__.__GAME_NAME, game_time=self.__class__.__GAME_TIME, 
+        gameboard = AnagramGameboard(game_name=self.__class__.__GAME_NAME, 
+                                     game_time=self.__class__.__GAME_TIME, 
                                      word_length=self._word_length)
         return gameboard
     
