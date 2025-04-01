@@ -106,7 +106,7 @@ class AnagramHunt():
             self.welcome_player(player)
             word_length = self.__select_word_length()
             self.introduce_game(word_length)
-            gameboard = self.create_gameboard(word_length)
+            gameboard = self.create_gameboard(word_length=word_length)
             player_answer = self.check_player_ready()
             if(player_answer == "y" or player_answer == "yes"):
                 if(player):
