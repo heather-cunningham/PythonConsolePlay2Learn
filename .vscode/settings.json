@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
         "PythonConsolePlay2Learn3",
-        "./anagram-hunt"
+        "./anagram_game",
+        "./math_game",
     ]
 }
