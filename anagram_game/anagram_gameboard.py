@@ -13,9 +13,11 @@ class AnagramGameboard(Gameboard):
     def __init__(self, game_name="Anagram Hunt", game_time=60, word_length=5):
         """ Creates a gameboard for the Anagram Hunt game and game play.
          
-        Keyword arguments: `word_length` (int) -- The number of characters for the length of the words from which
-                                                  to make anagrams.  Defaults to 5.
-                            `game_time` (int) -- The number of seconds for the game interval and its timer.                        
+        Keyword arguments: `game_name` (str) -- The name of the game. Defaults to: 'Anagram Hunt'.
+                           `game_time` (int) -- The number of seconds for the game interval and its timer.
+                                                Defaults to 60.     
+                           `word_length` (int) -- The number of characters for the length of the words 
+                                                  from which to make anagrams.  Defaults to 5.                         
         """
         super().__init__(game_name=game_name)
         ## Constants
