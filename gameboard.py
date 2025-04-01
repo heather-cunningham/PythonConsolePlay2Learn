@@ -134,6 +134,13 @@ class Gameboard(metaclass=ABCMeta):
         pass
 
 
+    @abstractmethod    
+    def _show_user_display(self):
+        """ Show user info for the question just asked or answered, 
+        (e.g.: current score, time left, correct answers so far, etc.). """
+        pass
+
+
     @abstractmethod
     def _increment_score(self):
         """ Increases the user's score upon a correct answer. """

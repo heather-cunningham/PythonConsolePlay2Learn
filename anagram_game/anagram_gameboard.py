@@ -193,8 +193,9 @@ class AnagramGameboard(Gameboard):
         return self.__user_score
     
 
-    ## Private
-    def __show_user_display(self):
+    ## Protected
+    ## @override
+    def _show_user_display(self):
         if(self.__timer is not None and self.__timer.seconds > 0):
             print("Your score:", self.__user_score)
             print("* You've guessed correctly:", self.__correct_guesses_list)
@@ -220,14 +221,14 @@ class AnagramGameboard(Gameboard):
                     self.quit_game()
                     return
                 is_correct = self._check_for_correct_answer(self.__user_answer)
-                self.__show_user_display()
+                self._show_user_display()
                 while (not is_correct and self.__timer is not None and self.__timer.seconds > 0):
                     self.__user_answer = self._ask_question(self.__anagram_word)
                     if (self.__user_answer.strip().lower() == "zzz"):
                         self.quit_game()
                         return
                     is_correct = self._check_for_correct_answer(self.__user_answer)
-                    self.__show_user_display()
+                    self._show_user_display()
                 else:
                     if(self.__timer is None or self.__timer.seconds < 0):
                         break
