@@ -82,12 +82,13 @@ class MathFacts():
     ## Private
     def __select_max_operand(self):
         self.__max_operand = 0
-        ERROR_MSG = "is not a number from 1 through 100."
+        ERROR_MSG = "is not a whole number from 1 through 100."
         while(self.__max_operand < 1 or self.__max_operand > 100):
             try:
                 print(self.__MARGIN_STR)
+                print("Next, please enter a whole number from 1 through 100 (inclusive) for the maximum operand value.")
                 self.__max_operand = int(floor(float(
-                    input("Next, please enter a max operand number from 1 through 100: ").strip()
+                    input("Enter max operand: [1 through 100] ").strip()
                 )))
             except ValueError:
                 print(f"{self.__MARGIN_STR}\n{self.__max_operand} {ERROR_MSG}")
