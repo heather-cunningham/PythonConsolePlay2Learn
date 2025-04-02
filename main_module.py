@@ -1,5 +1,6 @@
 from player import Player
 from anagram_game.anagram_hunt import AnagramHunt
+from math_game.math_facts import MathFacts
 from helpers.margin_separator_module import get_margin_separator
 from helpers.prompt_player_for_user import prompt_player_for_user_info, prompt_player_for_new_user_info
 
@@ -61,7 +62,8 @@ def launch_game(game_to_play):
         game = AnagramHunt()
         game.play_anagram_hunt(player=player)
     elif(game_to_play == 2): ## Math Facts 
-        print("\nSorry, the Math Facts game is UNDER CONSTRUCTION\n")
+        game = MathFacts()
+        game.play_math_facts(player=player)
     else:
         raise ValueError("Invalid input! Neither 1 for Anagram Hunt, nor 2 for Math Facts selected.")
     return

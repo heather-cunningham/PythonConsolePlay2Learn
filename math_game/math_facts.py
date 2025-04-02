@@ -188,7 +188,7 @@ class MathFacts():
             if(player):      
                 player.add_games_to_all_played_games_dict(player.games_played_in_round_dict)
                 high_score = player.calc_high_score()
-                print(self._MARGIN_STR + "\nYour highest scoring game so far is:\n" + self._MARGIN_STR)
+                print(self.__MARGIN_STR + "\nYour highest scoring game so far is:\n" + self.__MARGIN_STR)
                 pprint(high_score)
             del gameboard
         return
