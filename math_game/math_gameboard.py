@@ -52,13 +52,20 @@ class MathGameboard(Gameboard):
         return self.__equation
     
 
-    def __format_user_answer(self, user_answer):
-        if user_answer.is_integer():
-            self.__user_answer = int(user_answer)
-            return self.__user_answer
+    def __format_number(self, number):
+        if (number.is_integer()):
+            try:
+                number = int(number)
+                return number
+            except ValueError:
+                print("Could not parse number,", number, ", to an integer.")
         else:
-            self.__user_answer = round(user_answer, 2)
-            return self.__user_answer
+            try:
+                number = float(number) 
+                number = round(number, 2)
+                return number
+            except ValueError:
+                print("Could not parse number,", number, ", to a float.")
         
 
     ## Protected
@@ -101,9 +108,12 @@ class MathGameboard(Gameboard):
     ## Protected
     ## @override
     def _check_for_correct_answer(self, user_solution):
-        if(user_solution): ## is not None
-            operand1 = int(self.__equation.split(" ")[0])
-            operand2 = int(self.__equation.split(" ")[2])
+        if(user_solution is not None):
+            try:
+                operand1 = int(self.__equation.split(" ")[0])
+                operand2 = int(self.__equation.split(" ")[2])
+            except ValueError:
+                print(f"Could not parse the operands:", operand1, ",", operand2)
             if(self.__arithmetic_operation.title() == "Addition"):
                 if(user_solution == (operand1 + operand2)):
                     self.__is_correct_answer = True
@@ -129,7 +139,7 @@ class MathGameboard(Gameboard):
                     self.__is_correct_answer = False
                     return self.__is_correct_answer
             elif(self.__arithmetic_operation.title() == "Division"):
-                if(user_solution == (operand1 / operand2)):
+                if(user_solution == self.__format_number(operand1 / operand2)):
                     self.__is_correct_answer = True
                     self._increment_score()
                     return self.__is_correct_answer
@@ -176,14 +186,12 @@ class MathGameboard(Gameboard):
                     return
                 is_correct = self._check_for_correct_answer(self.__user_answer)
                 if(not is_correct):
-                    self.__user_answer = self.__format_user_answer(self.__user_answer)
+                    self.__user_answer = self.__format_number(self.__user_answer)
                     print(f"\n{self.__user_answer} is not correct.  Try again!\n")
             else:
-                self.__user_answer = self.__format_user_answer(self.__user_answer)
+                self.__user_answer = self.__format_number(self.__user_answer)
                 print(f"\n{self.__user_answer} is correct!")
             self._show_user_display()
-            # print("\nYou have", self.__timer.seconds, "seconds left.")
-            # print(f"Your score: {self.__user_score}\n")
         else:
             self._end_game()
                 
