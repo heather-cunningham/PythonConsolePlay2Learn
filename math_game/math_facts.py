@@ -5,11 +5,12 @@ sys.path.insert(1, project_root)
 from math import floor
 from pprint import pprint
 from helpers.margin_separator_module import get_margin_separator
+from game import Game
 from math_game.math_gameboard import MathGameboard
 
 
 ## BEGIN
-class MathFacts():
+class MathFacts(Game):
     """ The Math Facts game """
 
     __GAME_NAME = "Math Facts"
@@ -18,7 +19,7 @@ class MathFacts():
 
     def __init__(self, player=None):
         """ Creates the Math Facts game's start page """
-        super().__init__()
+        super().__init__(player=player)
         ## Private Constant
         self.__MARGIN_STR = get_margin_separator()
         ## Private
@@ -45,7 +46,7 @@ class MathFacts():
         return
     
 
-    def welcome_player(self, player=None):
+    def _welcome_player(self, player=None):
         print(self.__MARGIN_STR)
         if(player):
             print("Hello, " + player.username + "! Welcome to " + self.__class__.__GAME_NAME + "!")
@@ -110,7 +111,7 @@ class MathFacts():
         return self.__arithmetic_operation    
     
 
-    def get_operation_tple(self):
+    def __get_operation_tple(self):
         arithmetic_operator = self.__select_arithmetic_operator()
         if(arithmetic_operator):
             operation_name = self.__get_arithmetic_operation_name(arithmetic_operator=arithmetic_operator)
@@ -121,7 +122,7 @@ class MathFacts():
         return self.__operation_tple
 
 
-    def introduce_game(self, operation_tple=("+", "Addition", 1)):
+    def _introduce_game(self, operation_tple=("+", "Addition", 1)):
         self.__arithmetic_operator, self.__arithmetic_operation, self.__max_operand = operation_tple
         print(self.__MARGIN_STR)
         print("\n* You selected " + self.__arithmetic_operation + ": '" + self.__arithmetic_operator 
@@ -134,7 +135,7 @@ class MathFacts():
         return
     
 
-    def create_gameboard(self, operation_tple=("+", "Addition", 1)):
+    def _create_gameboard(self, operation_tple=("+", "Addition", 1)):
         self.__arithmetic_operator, self.__arithmetic_operation, self.__max_operand = operation_tple
         gameboard = MathGameboard(game_name=self.__class__.__GAME_NAME, 
                                   game_time=self.__class__.__GAME_TIME, 
@@ -144,21 +145,21 @@ class MathFacts():
         return gameboard
     
 
-    def check_player_ready(self):
+    def _check_player_ready(self):
         player_answer = (
             input(f"Are you ready to start playing {self.__class__.__GAME_NAME}? [y/n] ")
         ).strip().lower()
         return player_answer
     
 
-    def play_math_facts(self, player=None):
+    def _play_game(self, player=None):
         ## While the game is not over:
         while(not self.is_game_over):
-            self.welcome_player(player)
-            arith_op, op_name, max_op_number = self.get_operation_tple()
-            self.introduce_game(operation_tple=(arith_op, op_name, max_op_number))
-            gameboard = self.create_gameboard(operation_tple=(arith_op, op_name, max_op_number))
-            player_answer = self.check_player_ready()
+            self._welcome_player(player)
+            arith_op, op_name, max_op_number = self.__get_operation_tple()
+            self._introduce_game(operation_tple=(arith_op, op_name, max_op_number))
+            gameboard = self._create_gameboard(operation_tple=(arith_op, op_name, max_op_number))
+            player_answer = self._check_player_ready()
             if(player_answer == "y" or player_answer == "yes"):
                 if(player):
                     player._is_player_ready = True
@@ -171,7 +172,7 @@ class MathFacts():
                                                         game_ops_tple=(self.__arithmetic_operation, self.__max_operand),
                                                         game_date=gameboard._game_date,
                                                         final_score=gameboard._final_score)
-                    user_answer = self.ask_play_again()
+                    user_answer = self._ask_play_again()
                     if(user_answer == ""):
                         continue
                     else:
@@ -197,7 +198,7 @@ class MathFacts():
         return
     
 
-    def ask_play_again(self):
+    def _ask_play_again(self):
         user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
         return user_answer
 ## END class
@@ -206,7 +207,7 @@ class MathFacts():
 ## To run `math_facts.py` stand-alone/individually
 def main():
     game = MathFacts()
-    game.play_math_facts()
+    game._play_game()
     return
 
 

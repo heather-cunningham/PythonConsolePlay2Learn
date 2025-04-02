@@ -81,7 +81,7 @@ class MathGameboard(Gameboard):
         self._game_date = Gameboard._set_game_date()
         print(f"* You have {self._GAME_TIME} seconds.\n")
         self._start_game_timer()
-        self._play_game()
+        self._play_round()
         return
     
 
@@ -175,7 +175,7 @@ class MathGameboard(Gameboard):
 
     ## Protected 
     ## @override
-    def _play_game(self):
+    def _play_round(self):
         while(self.__timer is not None and self.__timer.seconds > 0):
             self.__equation = self.__set_next_equation()
             is_correct = False

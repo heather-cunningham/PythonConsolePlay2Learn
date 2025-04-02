@@ -4,11 +4,12 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 from pprint import pprint
 from helpers.margin_separator_module import get_margin_separator
+from game import Game
 from anagram_game.anagram_gameboard import AnagramGameboard
 
 
 ## BEGIN
-class AnagramHunt():
+class AnagramHunt(Game):
     """ The Anagram Hunt game """
 
     
@@ -18,7 +19,7 @@ class AnagramHunt():
 
     def __init__(self, player=None):
         """ Creates the Anagram Hunt game's start page """
-        super().__init__()
+        super().__init__(player=player)
         ## Private
         self.__MARGIN_STR = get_margin_separator()
         ## Protected
@@ -41,7 +42,7 @@ class AnagramHunt():
         return
     
 
-    def welcome_player(self, player=None):
+    def _welcome_player(self, player=None):
         print(self.__MARGIN_STR)
         if(player):
             print("Hello, " + player.username + "! Welcome to " + self.__class__.__GAME_NAME + "!")
@@ -70,7 +71,7 @@ class AnagramHunt():
         return self._word_length
     
 
-    def introduce_game(self, word_length=5):
+    def _introduce_game(self, word_length=5):
         self._word_length = word_length
         print(self.__MARGIN_STR)
         print("\n* You selected a word length of:", self._word_length, "characters.")
@@ -86,7 +87,7 @@ class AnagramHunt():
         return
 
 
-    def create_gameboard(self, word_length=5):
+    def _create_gameboard(self, word_length=5):
         self._word_length = word_length
         gameboard = AnagramGameboard(game_name=self.__class__.__GAME_NAME, 
                                      game_time=self.__class__.__GAME_TIME, 
@@ -94,21 +95,26 @@ class AnagramHunt():
         return gameboard
     
 
-    def check_player_ready(self):
+    def _check_player_ready(self):
         player_answer = (
             input(f"Are you ready to start playing {self.__class__.__GAME_NAME}? [y/n] ")
         ).strip().lower()
         return player_answer
     
 
-    def play_anagram_hunt(self, player=None):
+    def _ask_play_again(self):
+        user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
+        return user_answer
+
+
+    def _play_game(self, player=None):
         ## While the game is not over:
         while(not self.is_game_over):
-            self.welcome_player(player)
+            self._welcome_player(player)
             word_length = self.__select_word_length()
-            self.introduce_game(word_length)
-            gameboard = self.create_gameboard(word_length=word_length)
-            player_answer = self.check_player_ready()
+            self._introduce_game(word_length)
+            gameboard = self._create_gameboard(word_length=word_length)
+            player_answer = self._check_player_ready()
             if(player_answer == "y" or player_answer == "yes"):
                 if(player):
                     player._is_player_ready = True
@@ -145,18 +151,13 @@ class AnagramHunt():
                 pprint(high_score)
             del gameboard
         return
-
-
-    def _ask_play_again(self):
-        user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
-        return user_answer
 ## END class
 
 
 ## To run `anagram_hunt.py` stand-alone/individually
 def main():
     game = AnagramHunt()
-    game.play_anagram_hunt() 
+    game._play_game()
     return
 
 

@@ -143,7 +143,7 @@ class AnagramGameboard(Gameboard):
         self.__set_anagram_word()
         print(f"* You have {self._GAME_TIME} seconds.\n")
         self._start_game_timer()
-        self._play_game()
+        self._play_round()
         return
     
 
@@ -211,7 +211,7 @@ class AnagramGameboard(Gameboard):
 
     ## Protected 
     ## @override
-    def _play_game(self):
+    def _play_round(self):
         ## While there is a list of word_lists of this char length, and still time:
         while (len(self.__list_of_word_lists) > 0 and self.__timer is not None and self.__timer.seconds > 0):
             ## While there are words still in this word_list of this char length, and still time:

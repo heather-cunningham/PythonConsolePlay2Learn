@@ -59,11 +59,11 @@ def launch_game(game_to_play):
                         last_name=new_last_name)
     #
     if(game_to_play == 1): ## Anagram Hunt
-        game = AnagramHunt()
-        game.play_anagram_hunt(player=player)
+        anagram_hunt_game = AnagramHunt()
+        anagram_hunt_game._play_game(player=player)
     elif(game_to_play == 2): ## Math Facts 
-        game = MathFacts()
-        game.play_math_facts(player=player)
+        math_facts_game = MathFacts()
+        math_facts_game._play_game(player=player)
     else:
         raise ValueError("Invalid input! Neither 1 for Anagram Hunt, nor 2 for Math Facts selected.")
     return

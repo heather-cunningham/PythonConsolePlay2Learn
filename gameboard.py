@@ -4,16 +4,17 @@ import time
 
 ## BEGIN
 class Gameboard(metaclass=ABCMeta):
-    """ Parent abstract class for the games. """
+    """ Parent abstract class for the gameboards. """
 
 
-    def __init__(self, game_name=""):
-        """ Creates an abstract parent Game """
+    def __init__(self, game_name="", game_time=60):
+        """ Creates an abstract parent Gameboard """
         super().__init__()
         ## Protected
         self._game_id = Gameboard._generate_game_id(game_name)
         self._game_date = Gameboard._set_game_date()
         self._game_name = game_name
+        self._game_time = game_time
         self._final_score = 0
         self._is_game_ended = False
         self._was_game_quit = False
@@ -39,6 +40,17 @@ class Gameboard(metaclass=ABCMeta):
     @game_name.setter
     def game_name(self, game_name=""):
         self._game_name = game_name
+        return
+    
+
+    @property
+    def game_time(self):
+        return self._game_time
+    
+
+    @game_time.setter
+    def game_time(self, game_time=60):
+        self._game_time = game_time
         return
     
 
@@ -117,7 +129,7 @@ class Gameboard(metaclass=ABCMeta):
 
 
     @abstractmethod
-    def _play_game(self):
+    def _play_round(self):
         """ Runs game play or game mechanics. """
         pass
 
