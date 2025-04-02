@@ -235,7 +235,7 @@ class MathGameboard(Gameboard):
             self._stop_game_timer()
         #
         if(self.__user_score > 0):
-            print("You solved", self.__user_score, "equations!")
+            print("You solved", self.__user_score, self.__arithmetic_operation, "equations!")
         else:
             print("Aww, you didn't solve any", self.__arithmetic_operation, 
                     " equations this game. Better luck next time!")
