@@ -2,6 +2,7 @@ import sys
 import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(1, project_root)
+from math import floor
 from pprint import pprint
 from helpers.margin_separator_module import get_margin_separator
 from math_game.math_gameboard import MathGameboard
@@ -85,9 +86,9 @@ class MathFacts():
         while(self.__max_operand < 1 or self.__max_operand > 100):
             try:
                 print(self.__MARGIN_STR)
-                self.__max_operand = int(
+                self.__max_operand = int(floor(float(
                     input("Next, please enter a max operand number from 1 through 100: ").strip()
-                )
+                )))
             except ValueError:
                 print(f"{self.__MARGIN_STR}\n{self.__max_operand} {ERROR_MSG}")
             else:
