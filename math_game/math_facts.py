@@ -70,7 +70,7 @@ class MathFacts():
                 if(self.__arithmetic_operator == ""):
                     print(f"{self.__MARGIN_STR}\nBlank space {ERROR_MSG}")
                 else:
-                    print(f"{self.__MARGIN_STR}\n{self.self._arithmetic_operator} {ERROR_MSG}")
+                    print(f"{self.__MARGIN_STR}\n{self.__arithmetic_operator} {ERROR_MSG}")
             else:
                 if(self.__arithmetic_operator == ""):
                     print(f"{self.__MARGIN_STR}\nBlank space {ERROR_MSG}")

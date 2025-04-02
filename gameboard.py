@@ -83,15 +83,15 @@ class Gameboard(metaclass=ABCMeta):
         if(game_name):
             game_name_arr = game_name.split(" ")
             id_num = int(time.time())
-            id = ""
+            id_for_game = ""
             if(len(game_name_arr) >= 2):
                 for i in range(len(game_name_arr)):
-                    id += game_name_arr[i][0:1].upper()
-                id += "_" + str(id_num)
-                return id
+                    id_for_game += game_name_arr[i][0:1].upper()
+                id_for_game += "_" + str(id_num)
+                return id_for_game
             else:
-                id = game_name_arr[0][0:1].upper() + "_" + str(id_num)
-                return id
+                id_for_game = game_name_arr[0][0:1].upper() + "_" + str(id_num)
+                return id_for_game
         return None
 
 
@@ -123,13 +123,13 @@ class Gameboard(metaclass=ABCMeta):
 
 
     @abstractmethod
-    def _ask_question(self):
+    def _ask_question(self, parameter):
         """ Asks the game's question for the user to answer. """
         pass
 
 
     @abstractmethod
-    def _check_for_correct_answer(self):
+    def _check_for_correct_answer(self, answer):
         """ Checks if the user's answer is correct. """ 
         pass
 
