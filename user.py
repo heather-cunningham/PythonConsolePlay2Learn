@@ -10,8 +10,9 @@ class User():
 
     __registry_dict = {}
     GameData = namedtuple("GameData", 
-                          ["game_name", "game_date", "final_score", "user_id", "username"])
-    HighestScoreGame = namedtuple("HighestScoreGame", ["game_name", "high_score"])
+                          ["game_name", "game_ops_tple", "game_date", "final_score", "user_id", "username"])
+    HighestScoreGame = namedtuple("HighestScoreGame",
+                                  ["game_name", "game_op", "max_number", "high_score"])
 
 
     def __init__(self, user_id=None, username="", first_name="", last_name=""):
@@ -56,7 +57,7 @@ class User():
     
 
     @last_name.setter
-    def first_name(self, last_name):
+    def last_name(self, last_name):
         self._last_name = last_name
         return
     
@@ -157,7 +158,7 @@ class User():
 
     @classmethod
     def _add_user_to_registry(cls, user):
-        """ Double check the user doesn't exist already, and if not add them to the registry.
+        """ Double-check the user doesn't exist already, and if not add them to the registry.
         Else, do nothing. 
         
         parameters: `user` (object) """
@@ -238,6 +239,7 @@ class User():
             if(not self.get_played_game_by_id(game_id)):
                 game_data = self.__class__.GameData(
                     game_name = games_played_in_round_dict[game_id].game_name,
+                    game_ops_tple=games_played_in_round_dict[game_id].game_ops_tple,
                     game_date = games_played_in_round_dict[game_id].game_date,
                     final_score = games_played_in_round_dict[game_id].final_score,
                     user_id = self.user_id,
@@ -265,14 +267,19 @@ class User():
                 key=lambda game_id: played_games_dict[game_id].final_score 
             )
             game_name_w_max_score = played_games_dict[game_id_w_max_score].game_name
+            game_op, max_number = played_games_dict[game_id_w_max_score].game_ops_tple
             max_score = played_games_dict[game_id_w_max_score].final_score
             high_score_game_data = self.__class__.HighestScoreGame(
                 game_name = game_name_w_max_score,
-                high_score = max_score
+                game_op=game_op,
+                max_number=max_number,
+                high_score=max_score
             )
         else:
             high_score_game_data = self.__class__.HighestScoreGame(
                 game_name = "No games played yet",
+                game_op="",
+                max_number="",
                 high_score = 0
             )
         self.high_score = high_score_game_data

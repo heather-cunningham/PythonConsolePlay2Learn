@@ -7,7 +7,8 @@ class Player(User):
     """ A game player """
     
 
-    GameRoundData = namedtuple("GameRoundData", ["game_name", "game_date", "final_score"])
+    GameRoundData = namedtuple("GameRoundData",
+                               ["game_name", "game_ops_tple", "game_date", "final_score"])
 
 
     def __init__(self, user_id=None, username="", first_name="", last_name="", is_player_ready=False):
@@ -46,11 +47,12 @@ class Player(User):
         return self._games_played_in_round_dict
 
 
-    def add_game_played_in_round(self, game_id="", game_name="", game_date=None, final_score=0):
+    def add_game_played_in_round(self, game_id="", game_name="", game_ops_tple=(), game_date=None, final_score=0):
         if(game_id and game_name):
             if(game_id not in self._games_played_in_round_dict):
                 game_round_data = self.__class__.GameRoundData(
                     game_name=game_name,
+                    game_ops_tple=game_ops_tple,
                     game_date=game_date,
                     final_score=final_score
                 )

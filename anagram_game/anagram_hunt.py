@@ -116,9 +116,12 @@ class AnagramHunt():
                 ## If the game is over, but wasn't quit:
                 if(gameboard._is_game_ended and not gameboard._was_game_quit):
                     if(player):
-                        player.add_game_played_in_round(gameboard._game_id, gameboard._GAME_NAME, 
-                                                        gameboard._game_date, gameboard._final_score)
-                    user_answer = self.ask_play_again()
+                        player.add_game_played_in_round(game_id=gameboard._game_id,
+                                                        game_name=gameboard._GAME_NAME,
+                                                        game_ops_tple=("Word Length", self._word_length),
+                                                        game_date=gameboard._game_date,
+                                                        final_score=gameboard._final_score)
+                    user_answer = self._ask_play_again()
                     if(user_answer == ""):
                         continue
                     else:
@@ -144,7 +147,7 @@ class AnagramHunt():
         return
 
 
-    def ask_play_again(self):
+    def _ask_play_again(self):
         user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
         return user_answer
 ## END class
