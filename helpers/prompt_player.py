@@ -49,7 +49,7 @@ def prompt_player_for_new_user_info():
         last_name = input("Please, enter your last name: ").strip().replace(" ", "")
     print("Please, create a username. Usernames must have or be:")    
     print(__MARGIN_STR)
-    print("* 25 characters or less")
+    print("* Between 3 to 25 characters or less")
     print("* Alpha-numeric, underscore, and hyphen (dash) characters only")
     print("* No spaces")
     print("* Case sensitive")
