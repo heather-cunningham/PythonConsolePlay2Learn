@@ -201,8 +201,8 @@ class User():
         if(cls._check_username_exists(username)):
             print("Sorry, that username is in use already.")
             return False
-        elif(len(username) > 25):
-            print("Sorry, usernames must be 25 characters or less.")
+        elif(len(username) < 3 or len(username) > 25):
+            print("Sorry, usernames must be between 3 to 25 characters or less.")
             return False
         elif(not re.match(pattern, username)):
             print("Sorry, usernames may contain alpha-numeric characters, underscores, and hyphens (dashes) only.")
@@ -213,8 +213,8 @@ class User():
     @classmethod
     def _validate_persons_name(cls, persons_name):
         pattern = r'^[a-zA-Z\-]+$'
-        if(len(persons_name) > 25):
-            print("Sorry, first and last names must be 25 characters or less.")
+        if(len(persons_name) < 3 or len(persons_name) > 25):
+            print("Sorry, first and last names must be between 3 to 25 characters or less.")
             return False
         elif(not re.match(pattern, persons_name)):
             print("Sorry, first and last names may contain alphabetical characters and hyphens or dashes only.")
