@@ -65,8 +65,10 @@ class MathFacts(Game):
             try:
                 print(self.__MARGIN_STR)
                 print("To start, please press/enter an arithmetic operator:")
-                print("Addition, Subtraction, Multiplication, or Division.")
-                self.__arithmetic_operator = input("[+, -, x, /]: ").strip()
+                print("Addition, Subtraction, Multiplication, or Division. ['zzz' to quit]")
+                self.__arithmetic_operator = input("[+, -, x, /]: ").lower().strip()
+                if(self.__arithmetic_operator == "zzz"):
+                    return "" ## Return a falsy value to quit
             except ValueError:
                 if(self.__arithmetic_operator == ""):
                     print(f"{self.__MARGIN_STR}\nBlank space {ERROR_MSG}")
@@ -88,9 +90,10 @@ class MathFacts(Game):
             try:
                 print(self.__MARGIN_STR)
                 print("Next, please enter a whole number from 1 through 100 (inclusive) for the maximum operand value.")
-                self.__max_operand = int(floor(float(
-                    input("Enter max operand: [1 through 100] ").strip()
-                )))
+                self.__max_operand = input("Enter max operand: [1 through 100] ").lower().strip()
+                if(self.__max_operand == "zzz"):
+                    return 0 ## Rtn a Falsy value to quit
+                self.__max_operand = int(floor(float(self.__max_operand)))
             except ValueError:
                 print(f"{self.__MARGIN_STR}\n{self.__max_operand} {ERROR_MSG}")
             else:
@@ -113,12 +116,16 @@ class MathFacts(Game):
 
     def __get_operation_tple(self):
         arithmetic_operator = self.__select_arithmetic_operator()
-        if(arithmetic_operator):
+        if(arithmetic_operator): ## is not Falsy
             operation_name = self.__get_arithmetic_operation_name(arithmetic_operator=arithmetic_operator)
             max_operand = self.__select_max_operand()
+        else:
+            return None ## Return a falsy value to quit
         if(max_operand and operation_name):
             self.__operation_tple = (self.__arithmetic_operator, self.__arithmetic_operation, 
                                      self.__max_operand)
+        else:
+            return None ## Return a falsy value to quit
         return self.__operation_tple
 
 
@@ -156,7 +163,12 @@ class MathFacts(Game):
         ## While the game is not over:
         while(not self.is_game_over):
             self._welcome_player(player)
-            arith_op, op_name, max_op_number = self.__get_operation_tple()
+            op_tple = self.__get_operation_tple()
+            if(op_tple):
+                arith_op, op_name, max_op_number = op_tple
+            else:
+                self.quit_game()
+                return
             self._introduce_game(operation_tple=(arith_op, op_name, max_op_number))
             gameboard = self._create_gameboard(operation_tple=(arith_op, op_name, max_op_number))
             player_answer = self._check_player_ready()
@@ -176,7 +188,7 @@ class MathFacts(Game):
                     if(user_answer == ""):
                         continue
                     else:
-                        gameboard.quit_game()
+                        gameboard.quit_gameboard()
                         gameboard._was_game_quit = True
                         self._is_game_over = True
                 else:
@@ -186,7 +198,7 @@ class MathFacts(Game):
             else:
                 if(player):      
                     player._is_player_ready = False
-                gameboard.quit_game()
+                gameboard.quit_gameboard()
                 self._is_game_over = True
         else:
             if(player):      

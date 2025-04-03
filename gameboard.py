@@ -172,7 +172,7 @@ class Gameboard(metaclass=ABCMeta):
 
 
     @abstractmethod
-    def quit_game(self):
+    def quit_gameboard(self):
         """ Allows the user to quit the game before it's completed. """
         pass
 

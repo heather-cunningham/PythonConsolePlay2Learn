@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from helpers.prompt_player import GOODBYE_MSG
 
 
 ## BEGIN
@@ -40,4 +41,10 @@ class Game(metaclass=ABCMeta):
     @abstractmethod
     def _play_game(self, player=None):
         pass
+
+
+    @classmethod    
+    def quit_game(cls):
+        print(GOODBYE_MSG)
+        return
 ## END class

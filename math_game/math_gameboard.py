@@ -183,7 +183,7 @@ class MathGameboard(Gameboard):
             while (not is_correct and self.__timer is not None and self.__timer.seconds > 0):
                 self.__user_answer = self._ask_question(equation=self.__equation)
                 if ((str(self.__user_answer)).strip().lower() == "zzz"):
-                    self.quit_game()
+                    self.quit_gameboard()
                     return
                 is_correct = self._check_for_correct_answer(self.__user_answer)
                 if(not is_correct):
@@ -216,7 +216,7 @@ class MathGameboard(Gameboard):
     
 
     ## @override
-    def quit_game(self):
+    def quit_gameboard(self):
         print(GOODBYE_MSG)
         if(self.__timer is not None and self.__timer.seconds > 0):
             self._stop_game_timer()

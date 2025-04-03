@@ -60,9 +60,12 @@ class AnagramHunt(Game):
         ERROR_MSG = "is not a number from 5 through 8."
         while(self._word_length < 5 or self._word_length > 8):
             try:
-                self._word_length = int(
-                    input("To start, please select a word length, [5, 6, 7, or 8 characters]: ")
-                )
+                self._word_length = input(
+                    "To start, please select a word length -- 5, 6, 7, or 8 characters: ['zzz' to quit] "
+                ).lower().strip()
+                if(self._word_length == "zzz"):
+                    return 0 ## Return a falsy value to quit
+                self._word_length = int(self._word_length)
             except ValueError:
                 print(f"{self.__MARGIN_STR}\n{self._word_length} {ERROR_MSG}\n{self.__MARGIN_STR}")
             else:
@@ -112,7 +115,11 @@ class AnagramHunt(Game):
         while(not self.is_game_over):
             self._welcome_player(player)
             word_length = self.__select_word_length()
-            self._introduce_game(word_length)
+            if(word_length): ## is not falsy
+                self._introduce_game(word_length)
+            else:
+                self.quit_game()
+                return
             gameboard = self._create_gameboard(word_length=word_length)
             player_answer = self._check_player_ready()
             if(player_answer == "y" or player_answer == "yes"):
@@ -131,7 +138,7 @@ class AnagramHunt(Game):
                     if(user_answer == ""):
                         continue
                     else:
-                        gameboard.quit_game()
+                        gameboard.quit_gameboard()
                         gameboard._was_game_quit = True
                         self._is_game_over = True
                 else:
@@ -141,13 +148,14 @@ class AnagramHunt(Game):
             else:
                 if(player):
                     player._is_player_ready = False
-                gameboard.quit_game()
+                gameboard.quit_gameboard()
                 self._is_game_over = True
         else:
             if(player):
                 player.add_games_to_all_played_games_dict(player.games_played_in_round_dict)
                 high_score = player.calc_high_score()
-                print(self.__MARGIN_STR + "\nYour highest scoring game so far is:\n" + self.__MARGIN_STR)
+                print(self.__MARGIN_STR + "\nYour highest scoring game so far is:\n" 
+                      + self.__MARGIN_STR)
                 pprint(high_score)
             del gameboard
         return
