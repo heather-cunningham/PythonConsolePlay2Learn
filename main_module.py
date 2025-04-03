@@ -2,7 +2,7 @@ from player import Player
 from anagram_game.anagram_hunt import AnagramHunt
 from math_game.math_facts import MathFacts
 from helpers.margin_separator_module import get_margin_separator
-from helpers.prompt_player_for_user import prompt_player_for_user_info, prompt_player_for_new_user_info
+from helpers.prompt_player import prompt_player_for_user_info, prompt_player_for_new_user_info
 
 
 ## Play2Learn3
@@ -65,7 +65,7 @@ def launch_game(game_to_play):
         math_facts_game = MathFacts()
         math_facts_game._play_game(player=player)
     else:
-        raise ValueError("Invalid input! Neither 1 for Anagram Hunt, nor 2 for Math Facts selected.")
+        raise ValueError("Invalid input! Neither Anagram Hunt, Math Facts, nor Quit selected.")
     return
 
 

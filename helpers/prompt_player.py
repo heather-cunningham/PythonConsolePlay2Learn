@@ -2,6 +2,9 @@ from user import User
 from helpers.margin_separator_module import get_margin_separator
 
 
+GOODBYE_MSG = "Thanks for playing! TTFN (ta ta for now)!"
+
+
 def prompt_player_for_user_info():
         prompt = ""
         while(prompt != "r" and prompt != "n"): 
