@@ -3,7 +3,6 @@ import json
 import random
 from gameboard import Gameboard
 from helpers.countdown_timer import CountdownTimer
-from helpers.prompt_player import GOODBYE_MSG
 
 
 ## BEGIN
@@ -265,7 +264,7 @@ class AnagramGameboard(Gameboard):
 
     ## @override
     def quit_gameboard(self):
-        print(GOODBYE_MSG)
+        print(f"Thanks for playing {self.game_name}!")
         if(self.__timer is not None and self.__timer.seconds > 0):
             self._stop_game_timer()
         self._reset_game()

@@ -10,15 +10,40 @@ from helpers.prompt_player import prompt_player_for_user_info, prompt_player_for
 
 ## BEGIN
 class MainMenu():
-    """ A friendly, text-based 'homepage' or Main Menu. """
+    """ A friendly, text-based, Singleton 'homepage' or Main Menu. """
+
+
+    _instance = None ## Singleton
 
 
     def __init__(self):
-        """ Creates the text-based homepage or main menu """
-        super().__init__()
-        ## Private Constant
-        self.__MARGIN_STR = get_margin_separator()
+        """ Creates a Singleton the text-based homepage or main menu """
+        # super().__init__()
+        if(MainMenu._instance is None):
+            MainMenu._instance = self
+            ## Private Constant
+            self.__MARGIN_STR = get_margin_separator()
+            return
+        else:
+            raise Exception("#### An instance of MainMenu exists already.")
+    
 
+    @staticmethod
+    def get_main_menu_instance():
+        return MainMenu._instance
+    
+
+    @classmethod
+    def rtn_to_main_menu(self):
+        main_menu_instance = self.get_main_menu_instance()
+        self.greet_user(main_menu_instance)
+        game_to_play = self.select_game(main_menu_instance)
+        if(game_to_play):
+            self.launch_game(main_menu_instance, game_to_play)
+        else: ## User quit
+            self.quit_site(main_menu_instance)
+        return   
+    
 
     def greet_user(self):     
         print(self.__MARGIN_STR)
@@ -77,10 +102,15 @@ class MainMenu():
                             last_name=new_last_name)
         #
         if(game_to_play == 1): ## Anagram Hunt
-            anagram_hunt_game = AnagramHunt()
+            ## Pass the getter for the MainMenu's instance to the game being instantiated with 
+            ## dependency injection to avoid circular imports of classes. 
+            ## (I.e.: MainMenu imports the games' classes, so the games cannot import MainMenu.)
+            ## This structure allows the games' classes to return to the MainMenu 
+            ## when a player enters the games via the MainMenu.  
+            anagram_hunt_game = AnagramHunt(player=player, get_main_menu_instance=self.get_main_menu_instance)
             anagram_hunt_game._play_game(player=player)
         elif(game_to_play == 2): ## Math Facts 
-            math_facts_game = MathFacts()
+            math_facts_game = MathFacts(player=player, get_main_menu_instance=self.get_main_menu_instance)
             math_facts_game._play_game(player=player)
         else:
             raise ValueError("Invalid input! Neither Anagram Hunt, Math Facts, nor Quit selected.")

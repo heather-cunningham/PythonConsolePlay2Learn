@@ -17,7 +17,7 @@ class AnagramHunt(Game):
     __GAME_TIME = 60
     
 
-    def __init__(self, player=None):
+    def __init__(self, player=None, get_main_menu_instance=None):
         """ Creates the Anagram Hunt game's start page """
         super().__init__(player=player)
         ## Private
@@ -27,6 +27,7 @@ class AnagramHunt(Game):
         self._word_length = 5
         self._is_game_over = False
         self._final_score = 0
+        self._get_main_menu_instance = get_main_menu_instance
         ## Former college Prof. convention of explicitly returning, even if empty, to mark the end of a method.
         return
 
@@ -96,18 +97,17 @@ class AnagramHunt(Game):
                                      game_time=self.__class__.__GAME_TIME, 
                                      word_length=self._word_length)
         return gameboard
-    
 
-    def _check_player_ready(self):
-        player_answer = (
-            input(f"Are you ready to start playing {self.__class__.__GAME_NAME}? [y/n] ")
-        ).strip().lower()
-        return player_answer
-    
 
-    def _ask_play_again(self):
-        user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
-        return user_answer
+    def _go_back_to_main_menu(self):
+        go_back_to_main = input("Would you like to return to the Main Menu? [y/n] ").lower().strip()
+        if(go_back_to_main == "y" or go_back_to_main == "yes"):
+            main_menu = self._get_main_menu_instance()
+            if(main_menu):
+                main_menu.rtn_to_main_menu()
+        else:
+            self.quit_game()
+        return
 
 
     def _play_game(self, player=None):
@@ -121,7 +121,7 @@ class AnagramHunt(Game):
                 self.quit_game()
                 return
             gameboard = self._create_gameboard(word_length=word_length)
-            player_answer = self._check_player_ready()
+            player_answer = self.check_player_ready(self.__class__.__GAME_NAME)
             if(player_answer == "y" or player_answer == "yes"):
                 if(player):
                     player._is_player_ready = True
@@ -134,7 +134,7 @@ class AnagramHunt(Game):
                                                         game_ops_tple=("Word Length", self._word_length),
                                                         game_date=gameboard._game_date,
                                                         final_score=gameboard._final_score)
-                    user_answer = self._ask_play_again()
+                    user_answer = self.ask_play_again()
                     if(user_answer == ""):
                         continue
                     else:
@@ -151,13 +151,15 @@ class AnagramHunt(Game):
                 gameboard.quit_gameboard()
                 self._is_game_over = True
         else:
+            del gameboard
             if(player):
                 player.add_games_to_all_played_games_dict(player.games_played_in_round_dict)
                 high_score = player.calc_high_score()
                 print(self.__MARGIN_STR + "\nYour highest scoring game so far is:\n" 
                       + self.__MARGIN_STR)
                 pprint(high_score)
-            del gameboard
+                print(self.__MARGIN_STR)
+                self._go_back_to_main_menu()
         return
 ## END class
 
