@@ -17,7 +17,7 @@ def prompt_player_for_user_info():
                     user = User.get_user_by_username(username)
                     if(user):
                         if(User._check_user_exists(user.user_id, username)):
-                            print("Hi! ", user._full_name, ", welcome back!")
+                            print(f"Hi! {user._full_name}, welcome back!")
                             user_is_correct = ""
                             while(user_is_correct != "y" and user_is_correct != "n"):
                                 user_is_correct = (
