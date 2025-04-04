@@ -16,6 +16,6 @@ In a terminal or command-line window:
 1. `cd` into either directory (respectively): 
    1. `<project root>/anagram_game`
    2. Or, `<project root>/math_game`
-2. Run either game directly from its respective directory with either command:
+2. Run either game directly from its respective directory with the respective command:
    1. `python anagram_hunt.py`
    2. Or, `python math_facts.py`
