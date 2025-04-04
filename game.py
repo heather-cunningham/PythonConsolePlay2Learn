@@ -29,18 +29,27 @@ class Game(metaclass=ABCMeta):
 
 
     @abstractmethod
-    def _check_player_ready(self):
-        pass
-
-
-    @abstractmethod
-    def _ask_play_again(self):
-        pass
-
-
-    @abstractmethod
     def _play_game(self, player=None):
         pass
+
+
+    @abstractmethod
+    def _go_back_to_main_menu(self):
+        pass
+
+
+    @classmethod
+    def check_player_ready(cls, game_name):
+        player_answer = (
+            input(f"Are you ready to start playing {game_name}? [y/n] ")
+        ).strip().lower()
+        return player_answer
+
+
+    @classmethod
+    def ask_play_again(cls):
+        user_answer = (input("Want to play again? Press ENTER: [n/no to quit] ")).strip().lower()
+        return user_answer
 
 
     @classmethod    
