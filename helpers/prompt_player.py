@@ -41,12 +41,12 @@ def prompt_player_for_user_info():
 
 def prompt_player_for_new_user_info():
     __MARGIN_STR = get_margin_separator()
-    first_name = input("Please, enter your first name: ").strip().replace(" ", "")
+    first_name = input("Please, enter your first name: ").strip().replace(" ", "").title()
     while(not User._validate_persons_name(first_name)):
-        first_name = input("Please, enter your first name: ").strip().replace(" ", "")
-    last_name = input("Please, enter your last name: ").strip().replace(" ", "")
+        first_name = input("Please, enter your first name: ").strip().replace(" ", "").title()
+    last_name = input("Please, enter your last name: ").strip().replace(" ", "").title()
     while(not User._validate_persons_name(last_name)):
-        last_name = input("Please, enter your last name: ").strip().replace(" ", "")
+        last_name = input("Please, enter your last name: ").strip().replace(" ", "").title()
     print("Please, create a username. Usernames must have or be:")    
     print(__MARGIN_STR)
     print("* Between 3 to 25 characters or less")
